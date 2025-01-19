@@ -6,10 +6,14 @@ import (
 )
 
 func main() {
-	go say()
+	oniChan := make(chan int)
+
+	go say("Hello World", oniChan)
 	time.Sleep(2 * time.Second)
+	fmt.Println(<-oniChan)
 }
 
-func say() {
-	fmt.Println("Hello World")
+func say(greetings string, oniChan chan int) {
+	fmt.Println(greetings)
+	oniChan <- 7
 }

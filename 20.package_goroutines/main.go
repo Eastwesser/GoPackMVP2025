@@ -1,1 +1,7 @@
-package _0_package_goroutines
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello World")
+}

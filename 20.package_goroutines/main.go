@@ -37,6 +37,7 @@ func say(greetings string, oniChan chan string, oniChan2 chan int) {
 }
 
 func closer(closeChan string, oniChan3 chan int) {
+	defer close(oniChan3)
 	fmt.Println("GOROUTINE `CLOSER` IS RUNNING")
 	fmt.Println(closeChan)
 	for i := 0; i <= 5; i++ {
@@ -45,6 +46,4 @@ func closer(closeChan string, oniChan3 chan int) {
 	}
 	//oniChan3 <- 20000
 	fmt.Println("GOROUTINE `CLOSER` IS FINISHED")
-
-	close(oniChan3)
 }

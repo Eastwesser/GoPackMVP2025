@@ -4,6 +4,7 @@ import "fmt"
 
 func bubbleSort(arr []int) []int {
 	n := len(arr)
+
 	for i := 0; i < n; i++ {
 		swapped := false
 
@@ -14,11 +15,14 @@ func bubbleSort(arr []int) []int {
 				swapped = true
 			}
 
-			if !swapped {
-				break
-			}
 		}
+
+		if !swapped {
+			break
+		}
+
 	}
+
 	return arr
 }
 

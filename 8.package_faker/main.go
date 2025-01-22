@@ -12,7 +12,7 @@ func main() {
 	names := []string{"Alice", "Bob", "Charlie", "Diana", "Eve"}
 	cities := []string{"New York", "Los Angeles", "Chicago", "Houston", "Phoenix"}
 
-	// Generate a fake user profile
+	// Generate a fake user profile with math rand
 	name := names[rand.Intn(len(names))]
 	age := rand.Intn(50) + 18
 	city := cities[rand.Intn(len(cities))]

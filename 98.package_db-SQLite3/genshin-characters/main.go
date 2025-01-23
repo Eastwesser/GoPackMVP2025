@@ -61,12 +61,12 @@ func getAllCharacters(db *sql.DB) {
 	}
 }
 
-// Обновление CV для персонажа
-func updateCharacterCV(db *sql.DB, id int, newCV float64) error {
-	query := `UPDATE characters SET cv = ? WHERE id = ?;`
-	_, err := db.Exec(query, newCV, id)
-	return err
-}
+//// Обновление CV для персонажа
+//func updateCharacterCV(db *sql.DB, id int, newCV float64) error {
+//	query := `UPDATE characters SET cv = ? WHERE id = ?;`
+//	_, err := db.Exec(query, newCV, id)
+//	return err
+//}
 
 // Вычисление урона
 func calculateDamage(critRate, critDamage, attack, masteryBonus, attackBonus float64) float64 {

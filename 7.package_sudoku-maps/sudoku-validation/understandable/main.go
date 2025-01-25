@@ -4,6 +4,7 @@ import "fmt"
 
 func checkRowIsValid(board [][]byte, row int) bool {
 	seen := make(map[byte]bool)
+
 	for _, num := range board[row] {
 		if num == '.' {
 			continue
@@ -13,11 +14,13 @@ func checkRowIsValid(board [][]byte, row int) bool {
 		}
 		seen[num] = true
 	}
+
 	return true
 }
 
 func checkColumnIsValid(board [][]byte, col int) bool {
 	seen := make(map[byte]bool)
+
 	for i := 0; i < 9; i++ {
 		num := board[i][col]
 		if num == '.' {
@@ -28,11 +31,13 @@ func checkColumnIsValid(board [][]byte, col int) bool {
 		}
 		seen[num] = true
 	}
+
 	return true
 }
 
 func checkSubGridIsValid(board [][]byte, startRow, startCol int) bool {
 	seen := make(map[byte]bool)
+
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
 			num := board[startRow+i][startCol+j]
@@ -45,11 +50,13 @@ func checkSubGridIsValid(board [][]byte, startRow, startCol int) bool {
 			seen[num] = true
 		}
 	}
+
 	return true
 }
 
 func isValidSudoku(board [][]byte) bool {
 	for i := 0; i < 9; i++ {
+
 		if !checkRowIsValid(board, i) || !checkColumnIsValid(board, i) {
 			return false
 		}
@@ -67,6 +74,7 @@ func isValidSudoku(board [][]byte) bool {
 }
 
 func main() {
+
 	boardTrue := [][]byte{
 		{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
 		{'6', '.', '.', '1', '9', '5', '.', '.', '.'},

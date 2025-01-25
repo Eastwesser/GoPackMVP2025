@@ -25,7 +25,7 @@ func isValidSudoku(board [][]byte) bool {
 
 			n := int(num - '0')
 
-			boxIndex := (i/3)*3 + j/3
+			boxIndex := (i/3)*3 + j/3 // формула индекса подгруппы
 
 			if rows[i][n] || cols[j][n] || squares[boxIndex][n] {
 				desicion = false

@@ -11,15 +11,9 @@ board[i][j] is a digit 1-9 or '.'.
 func isValidSudoku(board [][]byte) bool {
 	desicion := true // if there are no dupes - true is as default
 
-	cols := make([]map[byte]bool, 9)    // idx_col
-	rows := make([]map[byte]bool, 9)    // idx_row
-	squares := make([]map[byte]bool, 9) // idx_row, idx_col
-
-	for i := 0; i < 9; i++ {
-		cols[i] = make(map[byte]bool)    // init map for columns
-		rows[i] = make(map[byte]bool)    // init map for rows
-		squares[i] = make(map[byte]bool) // init map for sudoku-boxes
-	}
+	cols := [9][10]bool{}    // idx_col
+	rows := [9][10]bool{}    // idx_row
+	squares := [9][10]bool{} // idx_row, idx_col
 
 	for i := 0; i < len(board); i++ {
 		for j := 0; j < len(board[0]); j++ {
@@ -29,9 +23,11 @@ func isValidSudoku(board [][]byte) bool {
 				continue
 			}
 
+			n := int(num - '0')
+
 			boxIndex := (i/3)*3 + j/3
 
-			if rows[i][num] || cols[j][num] || squares[boxIndex][num] {
+			if rows[i][n] || cols[j][n] || squares[boxIndex][n] {
 				desicion = false
 			}
 

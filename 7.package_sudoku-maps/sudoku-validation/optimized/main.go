@@ -9,7 +9,7 @@ board[i][j] is a digit 1-9 or '.'.
 */
 
 func isValidSudoku(board [][]byte) bool {
-	desicion := true // if there are no dupes - true is as default
+	decision := true // if there are no dupes - true is as default
 
 	cols := [9][10]bool{}    // idx_col
 	rows := [9][10]bool{}    // idx_row
@@ -28,7 +28,7 @@ func isValidSudoku(board [][]byte) bool {
 			boxIndex := (i/3)*3 + j/3 // формула индекса подгруппы
 
 			if rows[i][n] || cols[j][n] || squares[boxIndex][n] {
-				desicion = false
+				decision = false
 			}
 
 			cols[j][num] = true
@@ -37,7 +37,7 @@ func isValidSudoku(board [][]byte) bool {
 		}
 	}
 
-	return desicion
+	return decision
 }
 
 func main() {

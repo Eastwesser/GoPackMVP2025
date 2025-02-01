@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
+	"sync"
 )
 
 // Worker маркирует ящики и отправляет их в канал
-func worker(ctx context.Context, jobs <-chan int, results chan<- string) {
+func worker(ctx context.Context, jobs <-chan int, results chan<- string, wg *sync.WaitGroup) {
+	defer wg.Done() // Уменьшаем счётчик при завершении
+
 	for {
 		select {
 		case num, ok := <-jobs:
@@ -21,52 +23,44 @@ func worker(ctx context.Context, jobs <-chan int, results chan<- string) {
 			results <- fmt.Sprintf("Eastwesser-%d", num)
 
 		case <-ctx.Done():
-
-			fmt.Println("Worker: Контекст отменён, ухожу.") // Контекст отменён — завершаем работу
+			// Контекст отменён — завершаем работу
+			fmt.Println("Worker: Контекст отменён, ухожу.")
 			return
 		}
 	}
 }
 
 func main() {
-	jobs := make(chan int)                                  // канал для передачи чисел
-	results := make(chan string)                            // канал для передачи маркированных значений
-	ctx, cancel := context.WithCancel(context.Background()) //создаём контекст с возможностью отмены (cancel()).
+	jobs := make(chan int)                                  // Канал для передачи чисел
+	results := make(chan string)                            // Канал для передачи маркированных значений
+	ctx, cancel := context.WithCancel(context.Background()) // Создаём контекст с возможностью отмены
+	defer cancel()                                          // Гарантируем отмену контекста при завершении
 
-	go worker(ctx, jobs, results) // Запускаем worker в отдельной горутине. Теперь worker ждёт данные из jobs.
+	var wg sync.WaitGroup
+
+	// Запускаем worker в отдельной горутине
+	wg.Add(1)
+	go worker(ctx, jobs, results, &wg)
 
 	// Наполняем канал задачами
 	go func() {
 		for i := 1; i <= 4; i++ {
 			jobs <- i
-			fmt.Println(i)
+			fmt.Println("Отправлена задача:", i)
 		}
-		// Закрываем канал jobs (но Worker ещё ждёт!)
-		close(jobs) // Закрываем канал сразу после завершения цикла!
+		close(jobs) // Закрываем канал после отправки всех задач
 	}()
 
-	// Симуляция зависания: Worker остаётся ждать
-	//time.Sleep(1000 * time.Millisecond) // "Я якобы поработал"
-
-	/*
-		Ждём 1 секунду (1000 мс).
-		Это имитация "зависшей" горутины.
-		worker ждёт новые задания в jobs, но новых чисел уже нет.
-		Он не завершится сам, так как канал jobs не закрыт.
-	*/
-
 	// Читаем результаты, пока results не закроется
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		for res := range results {
 			fmt.Println("Результат:", res)
 		}
 	}()
 
-	//close(jobs) // Опа! Надо закрывать канал!
-
-	// Дадим Worker обработать все задачи
-	time.Sleep(2 * time.Second) // Ждём 2 секунды, чтобы worker успел обработать оставшиеся данные.
-
-	// Завершаем контекст (если бы канал не закрылся)
-	cancel()
+	// Ждём завершения всех горутин
+	wg.Wait()
+	fmt.Println("Все задачи завершены.")
 }

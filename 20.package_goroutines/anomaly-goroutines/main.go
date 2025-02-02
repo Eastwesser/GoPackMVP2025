@@ -10,7 +10,8 @@ import (
 
 // Кринжовая горутина
 func cringeGoroutine(ctx context.Context, wg *sync.WaitGroup, dataChan chan<- int) {
-	defer wg.Done() // Уменьшаем счетчик WaitGroup при завершении
+	defer wg.Done()       // Уменьшаем счетчик WaitGroup при завершении
+	defer close(dataChan) // DONDO
 
 	for {
 		select {
@@ -48,13 +49,15 @@ func main() {
 
 	// WaitGroup для ожидания завершения горутины
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(2) // DONDO
 
 	// Запускаем кринжовую горутину
 	go cringeGoroutine(ctx, &wg, dataChan)
 
 	// Горутина для чтения данных из канала
 	go func() {
+		defer wg.Done() // DONDO
+
 		for num := range dataChan {
 			fmt.Printf("Главная функция: получила число %d из канала\n", num)
 		}
@@ -62,9 +65,6 @@ func main() {
 
 	// Ждем завершения горутины
 	wg.Wait()
-
-	// Закрываем канал после завершения
-	close(dataChan)
 
 	fmt.Println("Программа завершена. Кринж закончился.")
 }

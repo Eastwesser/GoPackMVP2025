@@ -21,5 +21,5 @@ func main() {
 	fmt.Scan(&a, &b)
 	result := cringeGoroutine(a, b)
 
-	fmt.Println(result)
+	fmt.Println(<-result) // если не поставить '<-' (чтение канала) мы получим адрес памяти канала
 }

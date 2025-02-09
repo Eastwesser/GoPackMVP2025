@@ -39,13 +39,13 @@ func main() {
 
 	// Создаем персонажей с разными стихиями
 	characters := []Character{
-		{"Amber", Pyro},
-		{"Barbara", Hydro},
-		{"Chongyun", Cryo},
-		{"Electro", Electro},
+		{"Mavuika", Pyro},
+		{"Furina", Hydro},
+		{"Tsaritsa", Cryo},
+		{"Shogun Raiden", Electro},
 		{"Venti", Anemo},
 		{"Zhongli", Geo},
-		{"Tighnari", Dendro},
+		{"Nahida", Dendro},
 	}
 
 	// Для каждого персонажа активируем эффект стихии

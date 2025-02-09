@@ -1,0 +1,20 @@
+# github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
+## explicit; go 1.18
+github.com/eiannone/keyboard
+# github.com/gosuri/uilive v0.0.4
+## explicit; go 1.10
+github.com/gosuri/uilive
+# github.com/guptarohit/asciigraph v0.7.3
+## explicit; go 1.11
+github.com/guptarohit/asciigraph
+# github.com/mattn/go-isatty v0.0.20
+## explicit; go 1.15
+github.com/mattn/go-isatty
+# github.com/mattn/go-sqlite3 v1.14.24
+## explicit; go 1.19
+github.com/mattn/go-sqlite3
+# golang.org/x/sys v0.6.0
+## explicit; go 1.17
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+golang.org/x/sys/windows

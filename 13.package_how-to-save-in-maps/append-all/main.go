@@ -1,1 +1,1 @@
-package append_all
+package main

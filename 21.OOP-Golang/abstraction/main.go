@@ -2,46 +2,46 @@ package main
 
 import "fmt"
 
-type Shape interface {
-	Area() float64
-	Perimeter() float64
+// Абстракция: интерфейс Character
+type Character interface {
+	UseSkill()
+	UseBurst()
 }
 
-type Rectangle struct {
-	width  float64
-	height float64
+// Структура для персонажа Diluc
+type Diluc struct {
+	Name string
 }
 
-func (r Rectangle) Area() float64 {
-	return r.width * r.height
+func (d Diluc) UseSkill() {
+	fmt.Println(d.Name, "использует навык: Огненный взрыв!")
 }
 
-func (r Rectangle) Perimeter() float64 {
-	return 2 * (r.width + r.height)
+func (d Diluc) UseBurst() {
+	fmt.Println(d.Name, "использует ульту: Феникс!")
 }
 
-type Circle struct {
-	radius float64
+// Структура для персонажа Venti
+type Venti struct {
+	Name string
 }
 
-func (c Circle) Area() float64 {
-	return 3.14 * c.radius * c.radius
+func (v Venti) UseSkill() {
+	fmt.Println(v.Name, "использует навык: Небесный выстрел!")
 }
 
-func (c Circle) Perimeter() float64 {
-	return 2 * 3.14 * c.radius
+func (v Venti) UseBurst() {
+	fmt.Println(v.Name, "использует ульту: Великий Одорадо!")
 }
 
 func main() {
-	var shape Shape
+	var character Character
 
-	shape = Rectangle{width: 5, height: 3}
-	fmt.Println("Прямоугольник:")
-	fmt.Println("Площадь:", shape.Area())
-	fmt.Println("Периметр:", shape.Perimeter())
+	character = Diluc{Name: "Дилюк"}
+	character.UseSkill()
+	character.UseBurst()
 
-	shape = Circle{radius: 4}
-	fmt.Println("Круг:")
-	fmt.Println("Площадь:", shape.Area())
-	fmt.Println("Периметр:", shape.Perimeter())
+	character = Venti{Name: "Венти"}
+	character.UseSkill()
+	character.UseBurst()
 }

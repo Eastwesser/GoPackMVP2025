@@ -2,18 +2,23 @@ package main
 
 import "fmt"
 
-type Person struct {
-	Name string
-	age  int
+type Character struct {
+	name  string
+	level int
 }
 
-func (p Person) GetAge() int {
-	return p.age
+func (c Character) GetLevel() int {
+	return c.level
+}
+
+func (c *Character) LevelUp() {
+	c.level++
+	fmt.Println(c.name, "повысил уровень до", c.level)
 }
 
 func main() {
-	person := Person{Name: "Иван", age: 25}
+	diluc := Character{name: "Дилюк", level: 80}
+	fmt.Println("Уровень", diluc.name, ":", diluc.GetLevel())
 
-	fmt.Println("Имя:", person.Name)
-	fmt.Println("Возраст:", person.GetAge())
+	diluc.LevelUp()
 }

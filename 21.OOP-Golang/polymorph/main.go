@@ -2,33 +2,29 @@ package main
 
 import "fmt"
 
-type Player interface {
-	Play()
+// Интерфейс для способностей
+type SkillUser interface {
+	UseSkill()
 }
 
-type FootballPlayer struct {
-	name string
+// Персонаж Дилюк
+type Diluc struct{}
+
+func (d Diluc) UseSkill() {
+	fmt.Println("Дилюк использует пиро навык: Огненный взрыв!")
 }
 
-func (f FootballPlayer) Play() {
-	fmt.Println("Футболист", f.name, "играет в футбол.")
-}
+// Персонаж Венти
+type Venti struct{}
 
-type BasketballPlayer struct {
-	name string
-}
-
-func (b BasketballPlayer) Play() {
-	fmt.Println("Баскетболист", b.name, "играет в баскетбол.")
+func (v Venti) UseSkill() {
+	fmt.Println("Венти использует анемо навык: Небесный выстрел!")
 }
 
 func main() {
-	players := []Player{
-		FootballPlayer{name: "Роналду"},
-		BasketballPlayer{name: "Джордан"},
-	}
+	characters := []SkillUser{Diluc{}, Venti{}}
 
-	for _, player := range players {
-		player.Play()
+	for _, character := range characters {
+		character.UseSkill()
 	}
 }

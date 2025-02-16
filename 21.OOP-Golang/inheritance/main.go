@@ -2,27 +2,31 @@ package main
 
 import "fmt"
 
-type Animal struct {
-	name string
+// Базовый класс
+type Character struct {
+	Name string
 }
 
-func (a Animal) Speak() {
-	fmt.Println("Я животное и умею издавать звуки.")
+func (c Character) Attack() {
+	fmt.Println(c.Name, "атакует!")
 }
 
-type Dog struct {
-	Animal
-	breed string
+// Специализированный класс
+type PyroCharacter struct {
+	Character
+	Element string
 }
 
-func (d Dog) Speak() {
-	fmt.Println("Я собака и говорю 'Гав-гав!'")
+func (p PyroCharacter) UsePyroSkill() {
+	fmt.Println(p.Name, "использует пиро навык!")
 }
 
 func main() {
-	animal := Animal{name: "Животное"}
-	animal.Speak()
+	diluc := PyroCharacter{
+		Character: Character{Name: "Дилюк"},
+		Element:   "Пиро",
+	}
 
-	dog := Dog{Animal: Animal{name: "Собака"}, breed: "Лабрадор"}
-	dog.Speak()
+	diluc.Attack()
+	diluc.UsePyroSkill()
 }

@@ -2,25 +2,39 @@ package main
 
 import "fmt"
 
-type Engine struct {
-	power int
+// Оружие
+type Weapon struct {
+	Name  string
+	Power int
 }
 
-type Wheel struct {
-	size int
+// Артефакт
+type Artifact struct {
+	Name  string
+	Bonus string
 }
 
-type Car struct {
-	engine Engine
-	wheel  Wheel
+// Персонаж
+type Character struct {
+	Name     string
+	Weapon   Weapon
+	Artifact Artifact
 }
 
 func main() {
-	car := Car{
-		engine: Engine{power: 200},
-		wheel:  Wheel{size: 18},
+	diluc := Character{
+		Name: "Дилюк",
+		Weapon: Weapon{
+			Name:  "Волчья погибель",
+			Power: 100,
+		},
+		Artifact: Artifact{
+			Name:  "Пылающая алая ведьма",
+			Bonus: "Увеличивает урон огнем",
+		},
 	}
 
-	fmt.Println("Мощность двигателя:", car.engine.power)
-	fmt.Println("Размер колес:", car.wheel.size)
+	fmt.Println("Персонаж:", diluc.Name)
+	fmt.Println("Оружие:", diluc.Weapon.Name, "с силой", diluc.Weapon.Power)
+	fmt.Println("Артефакт:", diluc.Artifact.Name, "с бонусом:", diluc.Artifact.Bonus)
 }

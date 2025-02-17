@@ -3,38 +3,38 @@ package main
 import "fmt"
 
 //Полиморфизм позволяет использовать разные типы через общий интерфейс.
-//Например, пользователи могут входить в систему, но каждый делает это по-своему.
+//Например, ученики могут практиковать навыки, но каждый делает это по-своему.
 
-// Интерфейс для входа в систему
-type Loginable interface {
-	Login()
+// Интерфейс для практики
+type Practiceable interface {
+	Practice()
 }
 
-// Ученик
-type Student struct {
+// Ученик начальных классов
+type ElementaryStudent struct {
 	Name string
 }
 
-func (s Student) Login() {
-	fmt.Println(s.Name, "вошел в систему как ученик.")
+func (e ElementaryStudent) Practice() {
+	fmt.Println(e.Name, "практикует базовые навыки.")
 }
 
-// Учитель
-type Teacher struct {
+// Ученик старших классов
+type HighSchoolStudent struct {
 	Name string
 }
 
-func (t Teacher) Login() {
-	fmt.Println(t.Name, "вошел в систему как учитель.")
+func (h HighSchoolStudent) Practice() {
+	fmt.Println(h.Name, "практикует продвинутые навыки.")
 }
 
 func main() {
-	users := []Loginable{
-		Student{Name: "Иван Иванов"},
-		Teacher{Name: "Мария Петрова"},
+	students := []Practiceable{
+		ElementaryStudent{Name: "Иван Иванов"},
+		HighSchoolStudent{Name: "Мария Петрова"},
 	}
 
-	for _, user := range users {
-		user.Login()
+	for _, student := range students {
+		student.Practice()
 	}
 }

@@ -3,48 +3,70 @@ package main
 import "fmt"
 
 //Абстракция позволяет скрыть сложность и показать только необходимые детали.
-//В МЭШ это можно представить как общий интерфейс для всех пользователей, которые могут взаимодействовать с системой.
+//В SeRWaL это можно представить как общий интерфейс для всех учеников, которые могут развивать свои навыки.
 
-// Абстракция: интерфейс User
-type User interface {
-	Login()
-	ViewGrades()
+// Абстракция: интерфейс Student
+type Student interface {
+	PracticeSpeaking()
+	PracticeReading()
+	PracticeWriting()
+	PracticeListening()
 }
 
-// Структура для ученика
-type Student struct {
+// Структура для ученика начальных классов
+type ElementaryStudent struct {
 	Name string
 }
 
-func (s Student) Login() {
-	fmt.Println(s.Name, "вошел в систему как ученик.")
+func (e ElementaryStudent) PracticeSpeaking() {
+	fmt.Println(e.Name, "практикует разговорный английский с простыми фразами.")
 }
 
-func (s Student) ViewGrades() {
-	fmt.Println(s.Name, "просматривает свои оценки.")
+func (e ElementaryStudent) PracticeReading() {
+	fmt.Println(e.Name, "читает простые тексты и учит базовые слова.")
 }
 
-// Структура для учителя
-type Teacher struct {
+func (e ElementaryStudent) PracticeWriting() {
+	fmt.Println(e.Name, "практикует письменный английский с простыми предложениями.")
+}
+
+func (e ElementaryStudent) PracticeListening() {
+	fmt.Println(e.Name, "смотрит простые мультики с субтитрами и учит базовые слова.")
+}
+
+// Структура для ученика старших классов
+type HighSchoolStudent struct {
 	Name string
 }
 
-func (t Teacher) Login() {
-	fmt.Println(t.Name, "вошел в систему как учитель.")
+func (h HighSchoolStudent) PracticeSpeaking() {
+	fmt.Println(h.Name, "практикует сложные диалоги и обсуждает актуальные темы.")
 }
 
-func (t Teacher) ViewGrades() {
-	fmt.Println(t.Name, "просматривает оценки учеников.")
+func (h HighSchoolStudent) PracticeReading() {
+	fmt.Println(h.Name, "читает статьи и книги на английском.")
+}
+
+func (h HighSchoolStudent) PracticeWriting() {
+	fmt.Println(h.Name, "практикует письменный английский со сложными предложениями.")
+}
+
+func (h HighSchoolStudent) PracticeListening() {
+	fmt.Println(h.Name, "смотрит сериалы в оригинале, учит сложные слова и выражения.")
 }
 
 func main() {
-	var user User
+	var student Student
 
-	user = Student{Name: "Иван Иванов"}
-	user.Login()
-	user.ViewGrades()
+	student = ElementaryStudent{Name: "Миша"}
+	student.PracticeSpeaking()
+	student.PracticeReading()
+	student.PracticeWriting()
+	student.PracticeListening()
 
-	user = Teacher{Name: "Мария Петрова"}
-	user.Login()
-	user.ViewGrades()
+	student = HighSchoolStudent{Name: "Егор"}
+	student.PracticeSpeaking()
+	student.PracticeReading()
+	student.PracticeWriting()
+	student.PracticeListening()
 }

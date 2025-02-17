@@ -2,6 +2,9 @@ package main
 
 import "fmt"
 
+//Инкапсуляция позволяет скрыть внутренние детали объекта.
+//Например, прогресс ученика может быть скрыт, но доступен через метод.
+
 type Student struct {
 	name     string
 	progress int

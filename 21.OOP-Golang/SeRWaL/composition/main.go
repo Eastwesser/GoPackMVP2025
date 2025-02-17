@@ -3,47 +3,47 @@ package main
 import "fmt"
 
 //Композиция позволяет создавать сложные объекты, комбинируя более простые.
-//Например, ученик может иметь список оценок и домашних заданий.
+//Например, ученик может иметь список навыков и учебных материалов.
 
-// Оценка
-type Grade struct {
-	Subject string
-	Value   int
+// Навык
+type Skill struct {
+	Name        string
+	Description string
 }
 
-// Домашнее задание
-type Homework struct {
-	Subject string
-	Task    string
+// Учебный материал
+type Material struct {
+	Title string
+	Type  string
 }
 
 // Ученик
 type Student struct {
-	Name     string
-	Grades   []Grade
-	Homework []Homework
+	Name      string
+	Skills    []Skill
+	Materials []Material
 }
 
 func main() {
 	student := Student{
 		Name: "Иван Иванов",
-		Grades: []Grade{
-			{Subject: "Математика", Value: 5},
-			{Subject: "Физика", Value: 4},
+		Skills: []Skill{
+			{Name: "Speaking", Description: "Разговорный английский"},
+			{Name: "Reading", Description: "Чтение текстов"},
 		},
-		Homework: []Homework{
-			{Subject: "Математика", Task: "Решить задачу №5"},
-			{Subject: "Физика", Task: "Подготовить доклад"},
+		Materials: []Material{
+			{Title: "Basic English Grammar", Type: "Книга"},
+			{Title: "Daily Conversations", Type: "Аудио"},
 		},
 	}
 
 	fmt.Println("Ученик:", student.Name)
-	fmt.Println("Оценки:")
-	for _, grade := range student.Grades {
-		fmt.Println("-", grade.Subject, ":", grade.Value)
+	fmt.Println("Навыки:")
+	for _, skill := range student.Skills {
+		fmt.Println("-", skill.Name, ":", skill.Description)
 	}
-	fmt.Println("Домашние задания:")
-	for _, hw := range student.Homework {
-		fmt.Println("-", hw.Subject, ":", hw.Task)
+	fmt.Println("Материалы:")
+	for _, material := range student.Materials {
+		fmt.Println("-", material.Title, "(", material.Type, ")")
 	}
 }

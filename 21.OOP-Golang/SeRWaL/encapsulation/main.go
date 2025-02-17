@@ -2,26 +2,26 @@ package main
 
 import "fmt"
 
-//Инкапсуляция позволяет скрыть внутренние детали объекта.
-//Например, пароль пользователя может быть скрыт, но доступен через метод.
-
-type User struct {
+type Student struct {
 	name     string
-	password string
+	progress int
 }
 
-func (u User) GetName() string {
-	return u.name
+func (s Student) GetProgress() int {
+	return s.progress
 }
 
-func (u *User) ChangePassword(newPassword string) {
-	u.password = newPassword
-	fmt.Println(u.name, "изменил пароль.")
+func (s *Student) UpdateProgress(amount int) {
+	if amount > 0 {
+		s.progress += amount
+		fmt.Println(s.name, "улучшил прогресс на", amount, "%")
+	}
 }
 
 func main() {
-	user := User{name: "Иван Иванов", password: "qwerty"}
-	fmt.Println("Пользователь:", user.GetName())
+	student := Student{name: "Иван Иванов", progress: 50}
+	fmt.Println("Прогресс", student.name, ":", student.GetProgress(), "%")
 
-	user.ChangePassword("newpassword123")
+	student.UpdateProgress(10)
+	fmt.Println("Новый прогресс:", student.GetProgress(), "%")
 }

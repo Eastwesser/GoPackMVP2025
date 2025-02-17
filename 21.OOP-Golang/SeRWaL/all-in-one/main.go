@@ -2,82 +2,87 @@ package main
 
 import "fmt"
 
-// Абстракция: интерфейс для пользователей
-type User interface {
-	Login()
-	ViewGrades()
+// Абстракция: интерфейс для учеников
+type Practiceable interface {
+	Practice()
 }
 
 // Базовый класс (Инкапсуляция)
-type BaseUser struct {
+type BaseStudent struct {
 	Name     string
-	password string
+	progress int
 }
 
-func (u BaseUser) GetName() string {
-	return u.Name
+func (b BaseStudent) GetProgress() int {
+	return b.progress
 }
 
-func (u *BaseUser) ChangePassword(newPassword string) {
-	u.password = newPassword
-	fmt.Println(u.Name, "изменил пароль.")
+func (b *BaseStudent) UpdateProgress(amount int) {
+	if amount > 0 {
+		b.progress += amount
+		fmt.Println(b.Name, "улучшил прогресс на", amount, "%")
+	}
 }
 
-// Композиция: ученик с оценками и домашними заданиями
-type Grade struct {
-	Subject string
-	Value   int
+// Композиция: ученик с навыками и материалами
+type Skill struct {
+	Name        string
+	Description string
 }
 
-type Homework struct {
-	Subject string
-	Task    string
+type Material struct {
+	Title string
+	Type  string
 }
 
 // Наследование (встраивание) и полиморфизм
-type Student struct {
-	BaseUser
-	Grades   []Grade
-	Homework []Homework
+type AdvancedStudent struct {
+	BaseStudent
+	Skills    []Skill
+	Materials []Material
+	Focus     string
 }
 
-func (s Student) Login() {
-	fmt.Println(s.Name, "вошел в систему как ученик.")
-}
-
-func (s Student) ViewGrades() {
-	fmt.Println(s.Name, "просматривает свои оценки:")
-	for _, grade := range s.Grades {
-		fmt.Println("-", grade.Subject, ":", grade.Value)
-	}
+func (a AdvancedStudent) Practice() {
+	fmt.Println(a.Name, "практикует", a.Focus, "на углубленном уровне.")
 }
 
 func main() {
 	// Создаем ученика
-	student := Student{
-		BaseUser: BaseUser{Name: "Иван Иванов", password: "qwerty"},
-		Grades: []Grade{
-			{Subject: "Математика", Value: 5},
-			{Subject: "Физика", Value: 4},
+	advancedStudent := AdvancedStudent{
+		BaseStudent: BaseStudent{Name: "Мария Петрова", progress: 60},
+		Skills: []Skill{
+			{Name: "Speaking", Description: "Разговорный английский"},
+			{Name: "Reading", Description: "Чтение текстов"},
 		},
-		Homework: []Homework{
-			{Subject: "Математика", Task: "Решить задачу №5"},
-			{Subject: "Физика", Task: "Подготовить доклад"},
+		Materials: []Material{
+			{Title: "Advanced Grammar", Type: "Книга"},
+			{Title: "Business English", Type: "Аудио"},
 		},
+		Focus: "деловой английский",
 	}
 
 	// Используем методы
-	fmt.Println("Пользователь:", student.GetName())
-	student.Login()
-	student.ViewGrades()
-	student.ChangePassword("newpassword123")
+	fmt.Println("Ученик:", advancedStudent.Name)
+	fmt.Println("Прогресс:", advancedStudent.GetProgress(), "%")
+	advancedStudent.UpdateProgress(10)
+	advancedStudent.Practice()
+
+	fmt.Println("Навыки:")
+	for _, skill := range advancedStudent.Skills {
+		fmt.Println("-", skill.Name, ":", skill.Description)
+	}
+	fmt.Println("Материалы:")
+	for _, material := range advancedStudent.Materials {
+		fmt.Println("-", material.Title, "(", material.Type, ")")
+	}
 }
 
 /*
-	Абстракция: Интерфейс User скрывает детали реализации.
-	Композиция: Ученик содержит оценки и домашние задания.
+	Абстракция: Интерфейс Practiceable скрывает детали реализации.
+	Композиция: Ученик содержит навыки и учебные материалы.
 
-	Инкапсуляция: Пароль пользователя скрыт, но доступен через метод.
-	Наследование: Student встраивает BaseUser. Новая структура получает базовые настройки
-	Полиморфизм: Разные пользователи могут входить в систему через общий интерфейс. Разные структуры пользуются одним методом.
+	Инкапсуляция: Прогресс ученика скрыт, но доступен через метод.
+	Наследование: AdvancedStudent встраивает BaseStudent.
+	Полиморфизм: Разные ученики могут практиковать навыки через общий интерфейс.
 */

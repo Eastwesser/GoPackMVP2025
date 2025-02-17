@@ -2,34 +2,34 @@ package main
 
 import "fmt"
 
-// В Go нет классического наследования, но можно использовать встраивание (embedding).
-//Например, базовый класс "Пользователь" и специализированный класс "Администратор".
+//В Go нет классического наследования, но можно использовать встраивание (embedding).
+//Например, базовый класс "Ученик" и специализированный класс "Ученик с углубленным изучением".
 
 // Базовый класс
-type User struct {
+type Student struct {
 	Name string
 }
 
-func (u User) Login() {
-	fmt.Println(u.Name, "вошел в систему.")
+func (s Student) Study() {
+	fmt.Println(s.Name, "учит английский.")
 }
 
 // Специализированный класс
-type Admin struct {
-	User
-	Role string
+type AdvancedStudent struct {
+	Student
+	Focus string
 }
 
-func (a Admin) ManageSystem() {
-	fmt.Println(a.Name, "управляет системой как", a.Role)
+func (a AdvancedStudent) StudyAdvanced() {
+	fmt.Println(a.Name, "изучает", a.Focus, "на углубленном уровне.")
 }
 
 func main() {
-	admin := Admin{
-		User: User{Name: "Алексей Сидоров"},
-		Role: "Администратор",
+	advancedStudent := AdvancedStudent{
+		Student: Student{Name: "Мария Петрова"},
+		Focus:   "грамматика",
 	}
 
-	admin.Login()
-	admin.ManageSystem()
+	advancedStudent.Study()
+	advancedStudent.StudyAdvanced()
 }

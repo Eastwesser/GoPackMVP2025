@@ -11,19 +11,23 @@ type Advertisement interface {
 	GetDetails() string
 }
 
+// #####################################################################################################################
+
 // Структура для объявления о продаже
 type SaleAd struct {
 	Title string
 	Price float64
 }
 
-func (s SaleAd) Publish() {
+func (s *SaleAd) Publish() {
 	fmt.Println("Опубликовано объявление о продаже:", s.Title)
 }
 
-func (s SaleAd) GetDetails() string {
+func (s *SaleAd) GetDetails() string {
 	return fmt.Sprintf("Продажа: %s, Цена: %.2f руб.", s.Title, s.Price)
 }
+
+// #####################################################################################################################
 
 // Структура для объявления об аренде
 type RentAd struct {
@@ -32,22 +36,24 @@ type RentAd struct {
 	Period string
 }
 
-func (r RentAd) Publish() {
+func (r *RentAd) Publish() {
 	fmt.Println("Опубликовано объявление об аренде:", r.Title)
 }
 
-func (r RentAd) GetDetails() string {
+func (r *RentAd) GetDetails() string {
 	return fmt.Sprintf("Аренда: %s, Цена: %.2f руб./%s", r.Title, r.Price, r.Period)
 }
+
+// #####################################################################################################################
 
 func main() {
 	var ad Advertisement
 
-	ad = SaleAd{Title: "Продам iPhone 13", Price: 70000}
+	ad = &SaleAd{Title: "Продам iPhone 13", Price: 70000}
 	ad.Publish()
 	fmt.Println(ad.GetDetails())
 
-	ad = RentAd{Title: "Сдам квартиру", Price: 30000, Period: "месяц"}
+	ad = &RentAd{Title: "Сдам квартиру", Price: 30000, Period: "месяц"}
 	ad.Publish()
 	fmt.Println(ad.GetDetails())
 }

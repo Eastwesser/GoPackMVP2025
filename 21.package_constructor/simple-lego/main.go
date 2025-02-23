@@ -52,7 +52,7 @@ type Brick struct {
 func (br *Brick) legoBuild() time.Duration {
 	var totalTime time.Duration
 
-	if br.details == nil || len(br.details) == 0 {
+	if len(br.details) == 0 {
 		fmt.Println("Ошибка: Brick без деталей!")
 		return 0
 	}
@@ -61,7 +61,7 @@ func (br *Brick) legoBuild() time.Duration {
 		totalTime += detail.legoBuild()
 	}
 
-	time.Sleep(200 * time.Millisecond) // имитация времени сборки брика
+	time.Sleep(200 * time.Millisecond) // Имитация времени сборки брика
 	return totalTime + 200*time.Millisecond
 }
 
@@ -162,10 +162,10 @@ func createBlocks(bricks []*Brick) []*Block {
 
 	for i := 0; i < len(bricks); i += 3 {
 		end := i + 3
-		if end <= len(bricks) {
+		if end > len(bricks) {
 			end = len(bricks)
 		}
-		blocks = append(blocks, &Block{bricks: bricks[i : i+3]})
+		blocks = append(blocks, &Block{bricks: bricks[i:end]})
 	}
 
 	return blocks
@@ -269,14 +269,16 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for detail := range detailChan {
-			brick := &Brick{
-				details: []*Detail{
-					detail,
-					<-detailChan,
-					<-detailChan,
-				},
+		for {
+			detail1, ok1 := <-detailChan
+			detail2, ok2 := <-detailChan
+			detail3, ok3 := <-detailChan
+
+			if !ok1 || !ok2 || !ok3 {
+				break // Если канал закрыт или данных недостаточно, завершаем работу
 			}
+
+			brick := &Brick{details: []*Detail{detail1, detail2, detail3}}
 			brick.legoBuild()
 			brick.legoUpdate()
 			brickChan <- brick
@@ -288,14 +290,16 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for brick := range brickChan {
-			block := &Block{
-				bricks: []*Brick{
-					brick,
-					<-brickChan,
-					<-brickChan,
-				},
+		for {
+			brick1, ok1 := <-brickChan
+			brick2, ok2 := <-brickChan
+			brick3, ok3 := <-brickChan
+
+			if !ok1 || !ok2 || !ok3 {
+				break // Если канал закрыт или данных недостаточно, завершаем работу
 			}
+
+			block := &Block{bricks: []*Brick{brick1, brick2, brick3}}
 			block.legoBuild()
 			block.legoUpdate()
 			blockChan <- block
@@ -307,13 +311,15 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for block := range blockChan {
-			construction := &Construction{
-				blocks: []*Block{
-					block,
-					<-blockChan,
-				},
+		for {
+			block1, ok1 := <-blockChan
+			block2, ok2 := <-blockChan
+
+			if !ok1 || !ok2 {
+				break // Если канал закрыт или данных недостаточно, завершаем работу
 			}
+
+			construction := &Construction{blocks: []*Block{block1, block2}}
 			construction.legoBuild()
 			construction.legoUpdate()
 			constructionChan <- construction
@@ -325,13 +331,15 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for construction := range constructionChan {
-			completeModelChan <- &FullModel{
-				constructions: []*Construction{
-					construction,
-					<-constructionChan,
-				},
+		for {
+			construction1, ok1 := <-constructionChan
+			construction2, ok2 := <-constructionChan
+
+			if !ok1 || !ok2 {
+				break // Если канал закрыт или данных недостаточно, завершаем работу
 			}
+
+			completeModelChan <- &FullModel{constructions: []*Construction{construction1, construction2}}
 		}
 		close(completeModelChan)
 	}()

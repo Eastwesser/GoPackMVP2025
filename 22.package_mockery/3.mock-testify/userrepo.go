@@ -12,9 +12,6 @@ type User struct {
 }
 
 // UserRepository - интерфейс репозитория пользователей
-
-//go:generate mockgen -source=userrepo.go -destination=mock_userrepo.go -package=userrepo
-
 type UserRepository interface {
 	FindById(ctx context.Context, id string) (*User, error)
 }

@@ -243,7 +243,7 @@ func main() {
 		withUpdate(true),
 	)
 
-	// WaitGroup для синхронизации горутин
+	// WaitGroup для синхронизации работы горутин
 	var wg sync.WaitGroup
 
 	// Каналы для передачи данных между горутинами

@@ -352,7 +352,7 @@ func main() {
 	finalModel.legoBuild()
 	finalModel.legoUpdate()
 
-	fmt.Println("Hello Lego User!", lg)
+	fmt.Println("Hello Lego Builder!", lg)
 
 	// Выводим общее время сборки
 	fmt.Printf("Общее время сборки: %v\n", time.Since(startTime))

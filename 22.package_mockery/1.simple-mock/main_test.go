@@ -15,7 +15,7 @@ func TestUserService_GetUser(t *testing.T) {
 	}
 	// тестируем GetUser
 	service := &UserRepositoryImpl{repo: mockRepo} // вместо реального интерфейса мы подставляем мок, в котором лежит просто map (mockData)
-	user, err := service.GetUser(context.Background(), "1")
+	user, err := service.GetUser(context.Background(), "10")
 	require.NoError(t, err)
-	require.Equal(t, "1", user.Id)
+	require.Equal(t, "10", user.Id)
 }

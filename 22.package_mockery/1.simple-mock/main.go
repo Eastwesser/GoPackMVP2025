@@ -20,9 +20,12 @@ type UserRepositoryImpl struct {
 }
 
 func (uri *UserRepositoryImpl) GetUser(ctx context.Context, id string) (*User, error) {
+
 	user, err := uri.repo.FindById(ctx, id)
+
 	// в моках этот метод FindById четко захардкожен,
 	// мы бы точно знали, что там ("1": {Id: "1", Name: "Denis", Email: "denis@example.com"},)
+
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +40,7 @@ type MockUserRepository struct {
 }
 
 func (m *MockUserRepository) FindById(ctx context.Context, id string) (*User, error) {
+
 	if user, ok := m.mockData[id]; ok {
 		return user, nil
 	}

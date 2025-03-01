@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 // есть персонаж honkai star rail, у него есть id, имя, стихия, роль
 type HSRCharacter struct {
@@ -36,17 +39,58 @@ func (t *Tribius) ShowName() string {
 }
 
 func main() {
-	name := &Tribius{
-		HSRCharacter: HSRCharacter{
-			id:          "1",
-			name:        "Трибби",
-			elementType: "квантовый",
-			role:        "Гармония",
+	// Создаем семафор с буфером 2 (можно изменить на нужное количество горутин)
+	sem := make(chan struct{}, 2)
+
+	// Создаем WaitGroup для ожидания завершения всех горутин
+	var wg sync.WaitGroup
+
+	// Список персонажей
+	characters := []*Tribius{
+		{
+			HSRCharacter: HSRCharacter{
+				id:          "1",
+				name:        "Трибби",
+				elementType: "квантовый",
+				role:        "Гармония",
+			},
+			date: "26 февраля 2025 года",
 		},
-		date: "26 февраля 2025 года",
+		{
+			HSRCharacter: HSRCharacter{
+				id:          "2",
+				name:        "Светлячок",
+				elementType: "огненный",
+				role:        "Разрушение",
+			},
+			date: "19 июня 2024 года",
+		},
+		{
+			HSRCharacter: HSRCharacter{
+				id:          "3",
+				name:        "Гепард",
+				elementType: "ледяной",
+				role:        "Сохранение",
+			},
+			date: "26 апреля 2023 года",
+		},
 	}
 
-	var nameShower NameShower
-	nameShower = name
-	fmt.Println(nameShower.ShowName())
+	// Запускаем горутины для каждого персонажа
+	for _, char := range characters {
+		wg.Add(1) // Увеличиваем счетчик WaitGroup
+		go func(c *Tribius) {
+			defer wg.Done() // Уменьшаем счетчик WaitGroup при завершении горутины
+
+			sem <- struct{}{}        // Захватываем место в семафоре
+			defer func() { <-sem }() // Освобождаем место в семафоре
+
+			var nameShower NameShower
+			nameShower = c
+			fmt.Println(nameShower.ShowName())
+		}(char)
+	}
+
+	// Ждем завершения всех горутин
+	wg.Wait()
 }

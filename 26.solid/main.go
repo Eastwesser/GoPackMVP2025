@@ -1,52 +1,86 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-// есть персонаж honkai star rail, у него есть id, имя, стихия, роль
-type HSRCharacter struct {
-	id          string
-	name        string
-	elementType string
-	role        string
+// S: Single Responsibility Principle (Принцип единственной ответственности)
+// Каждый тип отвечает за одну задачу.
+
+// Brick представляет собой Lego-кирпич.
+type Brick struct {
+	Color string
 }
 
-// здесь мы лишь добавляем порядок их выхода 2025 год
-type Tribius struct {
-	HSRCharacter
-	date string
+// NewBrick создает новый Lego-кирпич.
+func NewBrick(color string) *Brick {
+	return &Brick{Color: color}
 }
 
-// 	Tribbie string
-//	Trianna string
-//	Trionna string
+// O: Open/Closed Principle (Принцип открытости/закрытости)
+// Мы можем добавлять новые типы кирпичей, не изменяя существующий код.
 
-type NameShower interface {
-	ShowName() string
+// SpecialBrick представляет собой специальный Lego-кирпич.
+type SpecialBrick struct {
+	Brick
+	Effect string
 }
 
-func (t *Tribius) ShowName() string {
-	return fmt.Sprintf(
-		"Привет! Я %s, и меня зовут %s! Я имею %s тип, и я следую пути %s. В игре с %s. Приятно познакомиться!",
-		t.id,
-		t.name,
-		t.elementType,
-		t.role,
-		t.date,
-	)
+// NewSpecialBrick создает новый специальный Lego-кирпич.
+func NewSpecialBrick(color, effect string) *SpecialBrick {
+	return &SpecialBrick{
+		Brick:  Brick{Color: color},
+		Effect: effect,
+	}
+}
+
+// L: Liskov Substitution Principle (Принцип подстановки Барбары Лисков)
+// SpecialBrick может использоваться везде, где используется Brick.
+
+// I: Interface Segregation Principle (Принцип разделения интерфейса)
+// Создаем небольшие интерфейсы для разных задач.
+
+// Placer определяет поведение для размещения кирпича.
+type Placer interface {
+	Place() string
+}
+
+// Place реализует интерфейс Placer для Brick.
+func (b *Brick) Place() string {
+	return fmt.Sprintf("Placed a %s brick", b.Color)
+}
+
+// Place реализует интерфейс Placer для SpecialBrick.
+func (sb *SpecialBrick) Place() string {
+	return fmt.Sprintf("Placed a %s brick with %s effect", sb.Color, sb.Effect)
+}
+
+// D: Dependency Inversion Principle (Принцип инверсии зависимостей)
+// Модули верхнего уровня зависят от абстракций, а не от конкретных реализаций.
+
+// Builder собирает Lego-модель.
+type Builder struct {
+	Placer Placer
+}
+
+// NewBuilder создает новый Builder.
+func NewBuilder(placer Placer) *Builder {
+	return &Builder{Placer: placer}
+}
+
+// BuildModel строит модель, используя Placer.
+func (b *Builder) BuildModel() string {
+	return b.Placer.Place()
 }
 
 func main() {
-	name := &Tribius{
-		HSRCharacter: HSRCharacter{
-			id:          "1",
-			name:        "Трибби",
-			elementType: "квантовый",
-			role:        "Гармония",
-		},
-		date: "26 февраля 2025 года",
-	}
+	// Создаем обычный кирпич
+	redBrick := NewBrick("red")
+	builder := NewBuilder(redBrick)
+	fmt.Println(builder.BuildModel()) // Placed a red brick
 
-	var nameShower NameShower
-	nameShower = name
-	fmt.Println(nameShower.ShowName())
+	// Создаем специальный кирпич
+	glowingBrick := NewSpecialBrick("blue", "glowing")
+	builder = NewBuilder(glowingBrick)
+	fmt.Println(builder.BuildModel()) // Placed a blue brick with glowing effect
 }

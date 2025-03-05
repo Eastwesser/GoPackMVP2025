@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Указываем путь к изображению
-	imagePath := "C:/Users/altte/OneDrive/Desktop/GoPackMVP2025/18.terminal-graphics/anime-tyan/anime.png"
+	imagePath := "GoPackMVP2025/18.terminal-graphics/anime-tyan/anime.png"
 
 	// Открываем изображение
 	file, err := os.Open(imagePath)

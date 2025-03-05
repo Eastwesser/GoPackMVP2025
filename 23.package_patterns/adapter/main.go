@@ -3,68 +3,77 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 )
 
-type User struct {
-	Name  string
-	Email string
-	Id    string
+// GPU представляет данные о видеокарте
+type GPU struct {
+	Model       string // Модель видеокарты
+	ClockSpeed  string // Тактовая частота
+	MemorySpeed string // Скорость памяти
 }
 
-// UserRepositoryOld — это старый интерфейс, который нужно адаптировать.
-type UserRepositoryOld interface {
-	FindById(context.Context, string) (*User, error)
+// GPURepositoryOld — это старый интерфейс, который нужно адаптировать.
+type GPURepositoryOld interface {
+	FindByModel(ctx context.Context, model string) (*GPU, error)
 }
 
-// UserService — это новый интерфейс, который ожидает клиент.
-type UserService interface {
-	GetUser(context.Context, string) (*User, error)
+// GPUService — это новый интерфейс, который ожидает клиент.
+type GPUService interface {
+	GetGPU(ctx context.Context, model string) (*GPU, error)
 }
 
-// UserRepositoryAdapter — это адаптер, который делает UserRepository совместимым с UserService.
-type UserRepositoryAdapter struct {
-	repo UserRepositoryOld // Адаптируемый объект (UserRepository)
+// GPURepositoryAdapter — это адаптер, который делает GPURepositoryOld совместимым с GPUService.
+type GPURepositoryAdapter struct {
+	repo GPURepositoryOld // Адаптируемый объект (GPURepositoryOld)
 }
 
-// GetUser — метод, который реализует интерфейс UserService.
-func (ura *UserRepositoryAdapter) GetUser(ctx context.Context, id string) (*User, error) {
-	user, err := ura.repo.FindById(ctx, id)
+// GetGPU — метод, который реализует интерфейс GPUService.
+func (gra *GPURepositoryAdapter) GetGPU(ctx context.Context, model string) (*GPU, error) {
+	gpu, err := gra.repo.FindByModel(ctx, model)
 	if err != nil {
 		return nil, err
 	}
-	return user, nil
+	return gpu, nil
 }
 
 // =====================================================================================================================
 
-// MockUserRepository — моковая реализация UserRepository для тестирования.
-type MockUserRepository struct{}
+// MockGPURepository — моковая реализация GPURepositoryOld для тестирования.
+type MockGPURepository struct{}
 
-func (mur *MockUserRepository) FindById(ctx context.Context, id string) (*User, error) {
-	if id == "1" {
-		return &User{Id: "1", Name: "Denis", Email: "denis@example.com"}, nil
+func (mgr *MockGPURepository) FindByModel(ctx context.Context, model string) (*GPU, error) {
+	if model == "RTX 3080" {
+		return &GPU{
+			Model:       "RTX 3080",
+			ClockSpeed:  "1800 MHz",
+			MemorySpeed: "14 Gbps",
+		}, nil
 	}
-	return nil, errors.New("user not found")
+	return nil, errors.New("GPU not found")
 }
 
 // =====================================================================================================================
 
 // Пример использования
 func main() {
-	// Создаем моковый UserRepository
-	mockRepo := &MockUserRepository{}
+	// Создаем моковый GPURepository
+	mockRepo := &MockGPURepository{}
 
 	// Создаем адаптер
-	adapter := &UserRepositoryAdapter{
+	adapter := &GPURepositoryAdapter{
 		repo: mockRepo,
 	}
 
-	// Используем UserService через адаптер
-	user, err := adapter.GetUser(context.Background(), "1")
+	// Используем GPUService через адаптер
+	gpu, err := adapter.GetGPU(context.Background(), "RTX 3080")
 	if err != nil {
-		println("Error:", err.Error())
+		fmt.Println("Error:", err.Error())
 		return
 	}
 
-	println("User:", user.Name, user.Email)
+	fmt.Println("GPU Details:")
+	fmt.Printf("Model: %s\n", gpu.Model)
+	fmt.Printf("Clock Speed: %s\n", gpu.ClockSpeed)
+	fmt.Printf("Memory Speed: %s\n", gpu.MemorySpeed)
 }

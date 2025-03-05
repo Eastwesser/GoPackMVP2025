@@ -21,9 +21,9 @@ type CharPixel struct {
 
 // Options convert pixel to raw char
 type Options struct {
-	Pixels     []byte
-	Reversed   bool
-	Colored    bool
+	Pixels   []byte
+	Reversed bool
+	Colored  bool
 }
 
 // DefaultOptions that contains the default pixels

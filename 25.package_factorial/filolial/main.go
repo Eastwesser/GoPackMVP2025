@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/big"
+	"time"
+)
 
 /*
 	Фило — это филориал-птица, и она теряет перья в зависимости от факториала своего размера.
@@ -9,17 +13,161 @@ import "fmt"
 	а затем сравним их производительность.
 
 	Факториал 5: 5 * 4 * 3 * 2 * 1 = 120
+
+RECURSION ==============================================================================================================
+Рекурсивный расчет факториала
+
+Временная сложность:
+	- O(n) (линейная).
+
+Пространственная сложность:
+	- O(n) (линейная, из-за использования стека вызовов).
+
+Плюсы:
+	- Простота реализации и читаемость кода.
+	- Естественно подходит для задач, которые можно разбить на подзадачи (например, факториал, обход деревьев).
+	- Интуитивно понятен для задач, где рекурсия является естественным подходом.
+
+Минусы:
+	- Может привести к переполнению стека при больших n (например, n=10000).
+	- Менее эффективен по памяти из-за использования стека вызовов.
+	- Для некоторых задач (например, факториал) рекурсия может быть избыточной,
+      так как существует более эффективное итеративное решение.
+
+Примеры:
+	5!=120
+	10!=3628800
+	20!=2432902008176640000
+
+Когда использовать рекурсию?
+
+	-Задачи, которые естественно решаются рекурсией:
+	Например, обход деревьев, рекурсивные алгоритмы (например, Ханойские башни).
+
+	- Небольшие значения n: Когда глубина рекурсии невелика и переполнение стека маловероятно.
+
+	- Читаемость кода: Если рекурсивное решение делает код более понятным и лаконичным.
+
 */
 
-func filorialFilo(n int) int {
-	if n == 0 || n == 1 {
+// Рекурсивный расчет факториала
+func filorialFiloRecursion(n int) int {
+	if n == 1 {
 		return 1
 	}
-	return n * filorialFilo(n-1)
+	return n * filorialFiloRecursion(n-1)
+}
+
+// Рекурсивный расчет факториала с использованием big.Int
+func bigFilorialFiloRecursion(n *big.Int) *big.Int {
+	if n.Cmp(big.NewInt(1)) <= 0 {
+		return big.NewInt(1)
+	}
+	one := big.NewInt(1)
+	return new(big.Int).Mul(n, bigFilorialFiloRecursion(new(big.Int).Sub(n, one)))
+}
+
+/*
+CYCLE ==================================================================================================================
+Итеративный расчет факториала
+
+Временная сложность:
+	- O(n) (линейная).
+
+Пространственная сложность:
+	- O(1) (константная, так как не используется стек вызовов).
+
+Плюсы: Эффективнее по памяти, не зависит от глубины стека.
+	Для больших n (например, n = 20) итеративное решение предпочтительнее из-за отсутствия переполнения стека.
+
+	5!=120
+	10!=3628800
+	20!=2432902008176640000
+
+Минусы: Чуть менее интуитивно для задач, которые естественно решаются рекурсией.
+*/
+
+// Итеративный расчет факториала
+func filorialFiloCycle(n int) int {
+	result := 1
+	for i := 2; i <= n; i++ {
+		result *= i
+	}
+	return result
+}
+
+// Итеративный расчет факториала с использованием big.Int
+func bigFilorialFiloCycle(n *big.Int) *big.Int {
+	result := big.NewInt(1)
+	one := big.NewInt(1)
+	for i := big.NewInt(2); i.Cmp(n) <= 0; i.Add(i, one) {
+		result.Mul(result, i)
+	}
+	return result
 }
 
 func main() {
-	n := 5
-	feathers := filorialFilo(n)
-	fmt.Printf("При таком размере %d Фило может потерять %d своих пёрышек!!!\n", n, feathers)
+	var n int // Размер Фило
+	fmt.Println("Введите размер Фило: ")
+	fmt.Scanln(&n)
+
+	// Обычные функции (int)
+	startRecursion := time.Now()
+	feathersRecursion := filorialFiloRecursion(n)
+	elapsedRecursion := time.Since(startRecursion)
+
+	startCycle := time.Now()
+	feathersCycle := filorialFiloCycle(n)
+	elapsedCycle := time.Since(startCycle)
+
+	// Вывод результатов для обычных функций
+	fmt.Printf("При %d размере Фило может потерять %d своих пёрышек!!!\n", n, feathersRecursion)
+	fmt.Printf("Рекурсия: %d перьев, время выполнения: %s\n", feathersRecursion, elapsedRecursion)
+	fmt.Printf("Цикл: %d перьев, время выполнения: %s\n", feathersCycle, elapsedCycle)
+
+	// Сравнение производительности для обычных функций
+	if elapsedRecursion < elapsedCycle {
+		fmt.Println("Рекурсия быстрее!")
+	} else if elapsedRecursion > elapsedCycle {
+		fmt.Println("Цикл быстрее!")
+	} else {
+		fmt.Println("Рекурсия и цикл одинаково быстры!")
+	}
+
+	// Функции с big.Int
+	b := big.NewInt(int64(n))
+
+	startBigRecursion := time.Now()
+	bigFiloRec := bigFilorialFiloRecursion(b)
+	bigElapsedRecursion := time.Since(startBigRecursion)
+
+	startBigCycle := time.Now()
+	bigFiloCyc := bigFilorialFiloCycle(b)
+	bigElapsedCycle := time.Since(startBigCycle)
+
+	// Вывод результатов для big.Int
+	fmt.Println("\nНО ЕСЛИ РАБОТАТЬ С БОЛЬШИМИ ДАННЫМИ!")
+	fmt.Printf("При %d размере Фило может потерять %s своих пёрышек!!!\n", n, bigFiloRec.String())
+	fmt.Printf("Рекурсия: %s перьев, время выполнения: %s\n", bigFiloRec.String(), bigElapsedRecursion)
+	fmt.Printf("Цикл: %s перьев, время выполнения: %s\n", bigFiloCyc.String(), bigElapsedCycle)
+
+	// Сравнение производительности для big.Int
+	if bigElapsedRecursion < bigElapsedCycle {
+		fmt.Println("Рекурсия быстрее!")
+	} else if bigElapsedRecursion > bigElapsedCycle {
+		fmt.Println("Цикл быстрее!")
+	} else {
+		fmt.Println("Рекурсия и цикл одинаково быстры!")
+	}
 }
+
+/*
+ВЫВОДЫ:
+	- Для небольших n (например, n=5) разница во времени выполнения незначительна.
+
+	- Для больших n (например, n=20) итеративный метод (цикл) работает быстрее,
+	так как не тратит время на вызовы функций и не использует стек.
+
+	- Рекурсия может привести к переполнению стека при очень больших n,
+	поэтому для таких случаев лучше использовать цикл.
+*/

@@ -135,7 +135,7 @@ func main() {
 	}
 
 	// Функции с big.Int
-	b := big.NewInt(int64(n))
+	b := big.NewInt(int64(n)) // 10000
 
 	startBigRecursion := time.Now()
 	bigFiloRec := bigFilorialFiloRecursion(b)
@@ -153,9 +153,9 @@ func main() {
 
 	// Сравнение производительности для big.Int
 	if bigElapsedRecursion < bigElapsedCycle {
-		fmt.Println("Рекурсия быстрее!")
+		fmt.Println("Рекурсия быстрее!") // 41.0421ms
 	} else if bigElapsedRecursion > bigElapsedCycle {
-		fmt.Println("Цикл быстрее!")
+		fmt.Println("Цикл быстрее!") // время выполнения: 7.3409ms
 	} else {
 		fmt.Println("Рекурсия и цикл одинаково быстры!")
 	}

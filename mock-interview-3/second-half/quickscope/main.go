@@ -17,10 +17,8 @@ func quicksort(slice []User, less func(a, b User) bool) {
 	if len(slice) <= 1 {
 		return
 	}
-
-	// Выбираем опорный элемент (pivot)
+	// Выбираем опорный элемент (pivot) pi = pivot index
 	pivotIndex := partition(slice, less)
-
 	// Рекурсивно сортируем левую и правую части
 	quicksort(slice[:pivotIndex], less)
 	quicksort(slice[pivotIndex+1:], less)
@@ -31,7 +29,6 @@ func partition(slice []User, less func(a, b User) bool) int {
 	// Выбираем последний элемент как опорный
 	pivot := slice[len(slice)-1]
 	i := 0
-
 	// Перемещаем элементы меньше опорного влево
 	for j := 0; j < len(slice)-1; j++ {
 		if less(slice[j], pivot) {
@@ -39,7 +36,6 @@ func partition(slice []User, less func(a, b User) bool) int {
 			i++
 		}
 	}
-
 	// Перемещаем опорный элемент на правильное место
 	slice[i], slice[len(slice)-1] = slice[len(slice)-1], slice[i]
 	return i

@@ -47,11 +47,11 @@ func main() {
 
 	// Создаем слайс структур User
 	users := []User{
-		{3, "Alice", 24},
-		{1, "Bob", 19},
-		{2, "Charlie", 27},
-		{4, "Dave", 23},
-		{5, "Alice", 24},
+		{3, "Nahida", 35},
+		{1, "Raiden", 45},
+		{2, "Zhongli", 57},
+		{4, "Furina", 32},
+		{5, "Venti", 20},
 	}
 
 	fmt.Println("Before sorting:", users)

@@ -4,6 +4,34 @@ import (
 	"fmt"
 )
 
+func getMed(medicine string) string {
+
+	var whatHurts string
+
+	switch choice {
+	case 1:
+		fmt.Printf("For Headache: %s\n", pills["Headache"])
+	case 2:
+		fmt.Printf("For Stomachache: %s\n", pills["Stomachache"])
+	case 3:
+		fmt.Printf("For Skin Issues: %s\n", pills["Skin Issues"])
+	case 4:
+		fmt.Printf("For Anti-Allergy: %s\n", pills["Anti-Allergy"])
+	case 5:
+		fmt.Printf("For Fever: %s\n", pills["Fever"])
+	case 6:
+		fmt.Printf("For Muscle Pain: %s\n", pills["Muscle Pain"])
+	case 7:
+		fmt.Printf("For Indigestion: %s\n", pills["Indigestion"])
+	case 8:
+		fmt.Printf("For Cold & Flu: %s\n", pills["Cold & Flu"])
+	default:
+		fmt.Println("Invalid choice! Please select a number between 1 and 8.")
+	}
+
+	return whatHurts
+}
+
 func main() {
 	// Map to store pills and their purposes
 	pills := map[string]string{
@@ -34,25 +62,4 @@ func main() {
 	fmt.Print("Enter the number of your choice: ")
 	fmt.Scan(&choice)
 
-	// Use switch-case to handle user input
-	switch choice {
-	case 1:
-		fmt.Printf("For Headache: %s\n", pills["Headache"])
-	case 2:
-		fmt.Printf("For Stomachache: %s\n", pills["Stomachache"])
-	case 3:
-		fmt.Printf("For Skin Issues: %s\n", pills["Skin Issues"])
-	case 4:
-		fmt.Printf("For Anti-Allergy: %s\n", pills["Anti-Allergy"])
-	case 5:
-		fmt.Printf("For Fever: %s\n", pills["Fever"])
-	case 6:
-		fmt.Printf("For Muscle Pain: %s\n", pills["Muscle Pain"])
-	case 7:
-		fmt.Printf("For Indigestion: %s\n", pills["Indigestion"])
-	case 8:
-		fmt.Printf("For Cold & Flu: %s\n", pills["Cold & Flu"])
-	default:
-		fmt.Println("Invalid choice! Please select a number between 1 and 8.")
-	}
 }

@@ -4,10 +4,8 @@ import (
 	"fmt"
 )
 
-func getMed(medicine string) string {
-
-	var whatHurts string
-
+// Функция для получения рекомендации по лекарству
+func getMed(choice int, pills map[string]string) {
 	switch choice {
 	case 1:
 		fmt.Printf("For Headache: %s\n", pills["Headache"])
@@ -28,12 +26,10 @@ func getMed(medicine string) string {
 	default:
 		fmt.Println("Invalid choice! Please select a number between 1 and 8.")
 	}
-
-	return whatHurts
 }
 
 func main() {
-	// Map to store pills and their purposes
+	// Map для хранения лекарств и их назначений
 	pills := map[string]string{
 		"Headache":     "Nurofen",
 		"Stomachache":  "Omeprazole",
@@ -45,7 +41,7 @@ func main() {
 		"Cold & Flu":   "Lemsip",
 	}
 
-	// Display available options
+	// Отображение доступных вариантов
 	fmt.Println("Welcome to your personal pill reminder!")
 	fmt.Println("Choose a category to see the recommended pill:")
 	fmt.Println("1. Headache")
@@ -57,9 +53,11 @@ func main() {
 	fmt.Println("7. Indigestion")
 	fmt.Println("8. Cold & Flu")
 
-	// Get user input
+	// Получение ввода от пользователя
 	var choice int
 	fmt.Print("Enter the number of your choice: ")
 	fmt.Scan(&choice)
 
+	// Получение рекомендации по лекарству
+	getMed(choice, pills)
 }

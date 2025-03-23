@@ -1,0 +1,33 @@
+version: '3.8'
+# version: '3.8' — версия формата файла Docker Compose.
+
+#  services — список сервисов (в данном случае у нас только один сервис app).
+services:
+  app:
+    # build: . — указывает Docker Compose собрать образ из Dockerfile в текущей директории.
+    build: ..
+    # ports — пробрасывает порт 8080 на хосте на порт 8080 в контейнере.
+    ports:
+      - "8080:8080"
+    # container_name — задаёт имя контейнера (опционально).
+    container_name: go-server
+    # depends_on — указывает, что сервис app зависит от сервиса db (база данных будет запущена первой).
+    depends_on:
+      - db
+
+    db:
+      image: postgres:13
+      environment:
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: mydb
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+  # volumes — сохраняет данные базы данных между перезапусками контейнера.
+  volumes:
+    postgres_data:
+
+# docker-compose up --build
+# docker-compose down

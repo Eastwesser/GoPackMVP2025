@@ -4,6 +4,7 @@ go 1.23.3
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
+	github.com/go-chi/chi/v5 v5.2.1
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/golang/mock v1.6.0
 	github.com/mattn/go-sqlite3 v1.14.24

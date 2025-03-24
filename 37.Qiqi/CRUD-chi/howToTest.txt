@@ -1,0 +1,14 @@
+# Создать пользователя
+curl -X POST -H "Content-Type: application/json" -d '{"name":"John Doe","email":"john@example.com"}' http://localhost:8080/users
+
+# Получить всех пользователей
+curl http://localhost:8080/users
+
+# Получить конкретного пользователя
+curl http://localhost:8080/users/1
+
+# Обновить пользователя
+curl -X PUT -H "Content-Type: application/json" -d '{"name":"John Updated","email":"john.updated@example.com"}' http://localhost:8080/users/1
+
+# Удалить пользователя
+curl -X DELETE http://localhost:8080/users/1

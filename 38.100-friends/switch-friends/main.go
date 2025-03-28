@@ -29,7 +29,8 @@ func processFriendsSequential(max int) []string {
 }
 
 func main() {
-	for i := 1; i <= 100; i++ {
-		fmt.Printf("У меня %d %s!\n", i, getFriendWord(i))
+	results := processFriendsSequential(100)
+	for i, word := range results {
+		fmt.Printf("У меня %d %s!\n", i+1, word)
 	}
 }

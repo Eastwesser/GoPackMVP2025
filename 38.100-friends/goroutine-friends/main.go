@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 // getFriendWord возвращает правильную форму слова "друг" для числа n.
 // Примеры:
@@ -25,10 +28,15 @@ func processFriendsConcurrent(max int) []string {
 	ch := make(chan struct {
 		index int
 		word  string
-	}, max)
+	})
+
+	// Ограничиваем количество одновременно работающих горутин
+	sem := make(chan struct{}, runtime.NumCPU()*2)
 
 	for i := 0; i < max; i++ {
+		sem <- struct{}{}
 		go func(n int) {
+			defer func() { <-sem }()
 			word := getFriendWord(n + 1)
 			ch <- struct {
 				index int
@@ -37,8 +45,15 @@ func processFriendsConcurrent(max int) []string {
 		}(i)
 	}
 
-	for i := 0; i < max; i++ {
-		r := <-ch
+	// Дополнительные горутины для закрытия канала
+	go func() {
+		for i := 0; i < max; i++ {
+			<-sem
+		}
+		close(ch)
+	}()
+
+	for r := range ch {
 		result[r.index] = r.word
 	}
 	return result

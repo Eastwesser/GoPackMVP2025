@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -51,12 +52,12 @@ func BenchmarkAllImplementations(b *testing.B) {
 		{"Concurrent", processFriendsConcurrent},
 	}
 
-	sizes := []int{100, 1000, 10000}
+	sizes := []int{100, 1000, 10000, 100000}
 
 	for _, bench := range benchmarks {
 		for _, size := range sizes {
-			name := bench.name
-			b.Run(name, func(b *testing.B) {
+			b.Run(fmt.Sprintf("%s-%d", bench.name, size), func(b *testing.B) {
+				b.ReportAllocs()
 				for i := 0; i < b.N; i++ {
 					bench.fn(size)
 				}

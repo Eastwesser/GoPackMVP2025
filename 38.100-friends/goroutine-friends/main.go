@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"sync"
 )
 
 // getFriendWord возвращает правильную форму слова "друг" для числа n.
@@ -28,15 +29,19 @@ func processFriendsConcurrent(max int) []string {
 	ch := make(chan struct {
 		index int
 		word  string
-	})
+	}, max) // Буферизованный канал
 
-	// Ограничиваем количество одновременно работающих горутин
 	sem := make(chan struct{}, runtime.NumCPU()*2)
+	var wg sync.WaitGroup
 
 	for i := 0; i < max; i++ {
+		wg.Add(1)
 		sem <- struct{}{}
 		go func(n int) {
-			defer func() { <-sem }()
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
 			word := getFriendWord(n + 1)
 			ch <- struct {
 				index int
@@ -45,11 +50,9 @@ func processFriendsConcurrent(max int) []string {
 		}(i)
 	}
 
-	// Дополнительные горутины для закрытия канала
+	// Закрываем канал после завершения всех горутин
 	go func() {
-		for i := 0; i < max; i++ {
-			<-sem
-		}
+		wg.Wait()
 		close(ch)
 	}()
 

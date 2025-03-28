@@ -27,3 +27,23 @@ func TestGetFriendWord(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkGetFriendWord(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		getFriendWord(i % 1000)
+	}
+}
+
+func BenchmarkProcessFriendsSequential100(b *testing.B) {
+	benchmarkProcessFriends(100, b)
+}
+
+func BenchmarkProcessFriendsSequential10000(b *testing.B) {
+	benchmarkProcessFriends(10000, b)
+}
+
+func benchmarkProcessFriends(count int, b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		processFriendsSequential(count)
+	}
+}

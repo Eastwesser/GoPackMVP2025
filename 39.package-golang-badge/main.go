@@ -10,7 +10,7 @@ import (
 var start = time.Now()
 
 func EastwesserBadge(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprintf(w, "🚀 Eastwesser | Go %s | Uptime: %s",
+	fmt.Fprintf(w, "🚀 Eastwesser | Go version: %s | Uptime: %s",
 		runtime.Version(),
 		time.Since(start).Round(time.Second))
 }

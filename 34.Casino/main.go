@@ -102,6 +102,6 @@ func main() {
 	if totalWin > 0 {
 		fmt.Printf("Общий выигрыш: %d\n", totalWin)
 	} else {
-		fmt.Println("Повезет в следующий раз!")
+		fmt.Println("Повезет в следующий раз, приятель!")
 	}
 }

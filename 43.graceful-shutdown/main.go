@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
+	".../internal/banks"
 	".../internal/logger"
-	".../internal/news"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -31,9 +31,9 @@ func main() {
 	// 	log.Error("db error", "err", err)
 	// 	os.Exit(1)
 	// }
-	// newsStore := news.NewStore(db)
+	// bankStore := banks.BankStore(db)
 
-	r := news.New(newsStore)
+	r := banks.New(bankStore)
 
 	wrappedRouter := logger.AddLoggerMid(log, logger.Middleware(r))
 
@@ -71,7 +71,7 @@ func main() {
 		case sig := <-sigch: // it's a blocking signal
 			log.Info("signal recieved", "signal", sig) // if any recieved - we initiate the shutdown of the server
 
-		case <-errGrpCtx.Done(): // signal 2 shut downs the server
+		case <-errGrpCtx.Done(): // signal 2 shuts down the server
 		}
 
 		ctxWithTimeout, cancelFn := context.WithTimeout(errGrpCtx, 5*time.Second)

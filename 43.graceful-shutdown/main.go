@@ -64,7 +64,7 @@ func main() {
 		log.Info("initiating graceful shutdown")
 
 		if err := server.Shutdown(ctxWithTimeout); err != nil {
-			return fmt.Errorf("error graceful shutdown: %w", err)
+			return fmt.Errorf("error in graceful shutdown: %w", err)
 		}
 
 		return nil

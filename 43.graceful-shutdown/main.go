@@ -53,7 +53,7 @@ func main() {
 		)
 		select {
 		case sig := <-sigch: // it's a blocking signal
-			log.Info("signal recieved", "signal", sig) // if any recieved - we initiate the shutdown of the server
+			log.Info("signal recieved", "signal", sig) // if any received - we initiate the shutdown of the server
 
 		case <-errGrpCtx.Done(): // signal 2 shuts down the server
 		}

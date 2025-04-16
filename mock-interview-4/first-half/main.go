@@ -31,7 +31,7 @@ type FilteredUser struct {
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
 	// Make request to the original API
-	resp, err := http.Get("https://api.example.com" + r.URL.Path)
+	response, err := http.Get("https://api.example.com" + r.URL.Path)
 	if err != nil {
 		http.Error(w, "Failed to fetch user data", http.StatusInternalServerError)
 		return
@@ -41,17 +41,17 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println("Error closing response body:", err)
 		}
-	}(resp.Body)
+	}(response.Body)
 
 	// Check if the response is successful
-	if resp.StatusCode != http.StatusOK {
-		http.Error(w, "User not found", resp.StatusCode)
+	if response.StatusCode != http.StatusOK {
+		http.Error(w, "User not found", response.StatusCode)
 		return
 	}
 
 	// Decode the user data
 	var user User
-	err = json.NewDecoder(resp.Body).Decode(&user)
+	err = json.NewDecoder(response.Body).Decode(&user)
 	if err != nil {
 		http.Error(w, "Failed to parse user data", http.StatusInternalServerError)
 		return
@@ -74,6 +74,7 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Set content type and encode the response
 	w.Header().Set("Content-Type", "application/json")
+
 	err = json.NewEncoder(w).Encode(filtered)
 	if err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)

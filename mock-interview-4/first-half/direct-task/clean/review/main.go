@@ -40,7 +40,7 @@ func main() {
 }
 
 func duplicator(w http.ResponseWriter, r *http.Request) {
-
+	// Либо request с context
 	clientOfThisTaskXDDD := &http.Client{}
 
 	req, err := http.NewRequest(r.Method, "http://80.000.000.00:8000/users", nil)

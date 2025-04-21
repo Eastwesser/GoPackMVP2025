@@ -10,7 +10,7 @@ func handleCon(conn net.Conn) {
 	defer conn.Close()
 
 	for {
-		_, err := conn.Write([]byte("1\n"))
+		_, err := conn.Write([]byte("2\n"))
 		if err != nil {
 			fmt.Println("error of writing", err)
 			return

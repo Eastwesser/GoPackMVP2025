@@ -11,6 +11,7 @@ func main() {
 		netListener, _ := net.Listen("tcp", ":8081") // Запуск сервера
 		for {
 			connection, _ := netListener.Accept()
+
 			go func(c net.Conn) {
 				defer c.Close()
 				for {
@@ -18,6 +19,7 @@ func main() {
 					time.Sleep(time.Second)
 				}
 			}(connection)
+
 		}
 	}()
 

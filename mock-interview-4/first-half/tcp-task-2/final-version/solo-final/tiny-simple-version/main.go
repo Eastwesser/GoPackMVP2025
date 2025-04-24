@@ -23,7 +23,7 @@ func main() {
 		}
 	}()
 
-	time.Sleep(3 * time.Second) // Даем серверу время на запуск
+	time.Sleep(3 * time.Second) // Даем серверу время на запуск себя
 
 	connection, _ := net.Dial("tcp", "localhost:8081") // Запуск клиента
 	defer connection.Close()

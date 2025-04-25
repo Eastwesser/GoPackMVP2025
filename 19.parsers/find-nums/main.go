@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	content, err := ioutil.ReadFile("text.txt")
+	content, err := os.ReadFile("text.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -42,6 +42,7 @@ type MProfile struct {
 }
 
 func handleUser(w http.ResponseWriter, r *http.Request) {
+
 	client := http.Client{Timeout: 10 * time.Second}
 
 	req, err := http.NewRequest("GET", "http://80.000.000.00:8000/users", nil)

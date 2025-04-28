@@ -10,9 +10,7 @@ import (
 
 /*
 	"In the grim darkness of the 41st millennium, there is only concurrency..."
-
 	Warhammer 40k-themed goroutine monitor, refactored as an Ultramarines Battle Report System.
-
 	Because even the Adeptus Mechanicus needs to debug their cogitators.
 */
 

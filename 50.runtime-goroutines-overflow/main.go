@@ -63,7 +63,7 @@ func main() {
 	// The Chapter Master (errgroup) leads the battle
 	battleGroup, _ := errgroup.WithContext(context.Background())
 
-	// Actiate the Vox-Caster (goroutine monitor)
+	// Actiate the Vox-Caster monitor (goroutine monitor)
 	go func() {
 		BattleReport(runtime.NumGoroutine())
 	}()

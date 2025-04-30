@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"image"
 	"image/color"
@@ -21,19 +22,36 @@ func pixelToASCII(c color.Color) byte {
 	return asciiChars[index]
 }
 
+func findFirstPNG(dir string) (string, error) {
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		return "", err
+	}
+	for _, f := range files {
+		if !f.IsDir() && filepath.Ext(f.Name()) == ".png" {
+			return filepath.Join(dir, f.Name()), nil
+		}
+	}
+	return "", errors.New("no PNG files found")
+}
+
 func convertImageToASCII(path string, width uint) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return fmt.Errorf("failed to open image: %w", err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
 
 	img, _, err := image.Decode(file)
 	if err != nil {
 		return fmt.Errorf("failed to decode image: %w", err)
 	}
 
-	// Преобразуем до квадратной ширины (например, 100 символов)
 	resized := resize.Resize(width, width/2, img, resize.Lanczos3)
 	bounds := resized.Bounds()
 
@@ -48,11 +66,14 @@ func convertImageToASCII(path string, width uint) error {
 }
 
 func main() {
-	// Меняй имя файла здесь
-	imagePath := filepath.Join("pics", "ascii.png")
-
-	err := convertImageToASCII(imagePath, 100) // ширина в символах
+	imagePath, err := findFirstPNG("pics")
 	if err != nil {
 		fmt.Println("Ошибка:", err)
+		return
+	}
+
+	err = convertImageToASCII(imagePath, 100)
+	if err != nil {
+		fmt.Println("Ошибка при конвертации:", err)
 	}
 }

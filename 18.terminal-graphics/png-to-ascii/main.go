@@ -15,27 +15,33 @@ import (
 var asciiChars = "@%#*+=-:. "
 
 func pixelToASCII(c color.Color) byte {
+
 	r, g, b, _ := c.RGBA()
 	gray := uint8((r + g + b) / 3 >> 8)
 	scale := float64(gray) / 255.0
 	index := int(scale * float64(len(asciiChars)-1))
+
 	return asciiChars[index]
 }
 
 func findFirstPNG(dir string) (string, error) {
+
 	files, err := os.ReadDir(dir)
 	if err != nil {
 		return "", err
 	}
+
 	for _, f := range files {
 		if !f.IsDir() && filepath.Ext(f.Name()) == ".png" {
 			return filepath.Join(dir, f.Name()), nil
 		}
 	}
+
 	return "", errors.New("no PNG files found")
 }
 
 func convertImageToASCII(path string, width uint) error {
+
 	file, err := os.Open(path)
 	if err != nil {
 		return fmt.Errorf("failed to open image: %w", err)
@@ -66,6 +72,7 @@ func convertImageToASCII(path string, width uint) error {
 }
 
 func main() {
+
 	imagePath, err := findFirstPNG("pics")
 	if err != nil {
 		fmt.Println("Ошибка:", err)

@@ -188,7 +188,7 @@ func main() {
 
 	// 4. в конце уже роутеры-ручки из internal/infrastructure/router например
 
-	// Роутинг HTTP
+	// Роутинг HTTP - они собирают все воедино и запускают приложение
 	http.HandleFunc("/entity/create", handler.CreateEntityHandler)
 	http.HandleFunc("/entity/get", handler.GetEntityHandler)
 	http.HandleFunc("/entity/update", handler.UpdateEntityHandler)

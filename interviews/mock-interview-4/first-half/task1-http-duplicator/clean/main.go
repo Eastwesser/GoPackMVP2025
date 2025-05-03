@@ -48,7 +48,7 @@ func main() {
 }
 
 func mimic(w http.ResponseWriter, r *http.Request) {
-	// Используем http.Get для получения данных с исходного API.
+	// Используем http-crud-map.Get для получения данных с исходного API.
 	response, _ := http.Get("http://80.000.000.00:8000/users")
 	defer response.Body.Close()
 

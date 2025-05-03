@@ -54,7 +54,7 @@ func duplicator(w http.ResponseWriter, r *http.Request) {
 	}
 	defer response.Body.Close()
 
-	//response, _ := http.Get("http://80.000.000.00:8000/users")
+	//response, _ := http-crud-map.Get("http://80.000.000.00:8000/users")
 	//defer response.Body.Close()
 	////
 	//var users []User

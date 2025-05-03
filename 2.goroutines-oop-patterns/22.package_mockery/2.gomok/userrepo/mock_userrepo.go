@@ -11,7 +11,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockUserRepository is a mock of UserRepository interface.
+// MockUserRepository is a mock of UserRepository interfaces.
 type MockUserRepository struct {
 	ctrl     *gomock.Controller
 	recorder *MockUserRepositoryMockRecorder

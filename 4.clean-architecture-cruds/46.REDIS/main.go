@@ -21,14 +21,14 @@ type User struct {
 	CreatedAt string `json:"created_at"`
 }
 
-// Cacher defines the interface for cache operations
+// Cacher defines the interfaces for cache operations
 type Cacher interface {
 	Set(key string, value interface{}) error
 	Get(key string) (interface{}, error)
 	GetUser(key string) (*User, error)
 }
 
-// cache implements the Cacher interface using Redis
+// cache implements the Cacher interfaces using Redis
 type cache struct {
 	client *redis.Client
 }

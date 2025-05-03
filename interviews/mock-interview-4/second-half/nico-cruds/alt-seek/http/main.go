@@ -180,10 +180,13 @@ func (h *HTTPHandler) DeleteEntityHandler(w http.ResponseWriter, r *http.Request
 }
 
 func main() {
+
 	// Инициализация слоев
-	repo := NewInMemoryRepository()
-	useCase := NewEntityUseCase(repo)
-	handler := NewHTTPHandler(useCase)
+	repo := NewInMemoryRepository()    // 1. сначала идет репозиторий, самый нижний уровень
+	useCase := NewEntityUseCase(repo)  // 2. затем сервис (он же usecase)
+	handler := NewHTTPHandler(useCase) // 3. потом идут контроллеры - они преобразуют запросы и возвращают модель
+
+	// 4. в конце уже роутеры-ручки из internal/infrastructure/router например
 
 	// Роутинг HTTP
 	http.HandleFunc("/entity/create", handler.CreateEntityHandler)
@@ -192,5 +195,10 @@ func main() {
 	http.HandleFunc("/entity/delete", handler.DeleteEntityHandler)
 
 	fmt.Println("Server is running on :8080")
-	http.ListenAndServe(":8080", nil)
+
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		return
+	}
+
 }

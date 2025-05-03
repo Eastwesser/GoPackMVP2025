@@ -30,10 +30,10 @@ Welcome to the **GoPackMVP2025 Dynamic Project**, an evolving repository showcas
 9. **[9.package_random](./9.package_random/)**  
    Random number generation and its use cases.
 
-10. **[10.package_db-SQLite3](98.package_db-SQLite3/)**  
+10. **[10.package_db-SQLite3](91.package-db-SQLite3/)**  
     Working with SQLite3 in Go for database interactions.
 
-11. **[100.package_tg-bot](./100.package_tg-bot/)**  
+11. **[100.package_tg-bot](93.package-tg-bot/)**  
     A Telegram bot implementation exploring the use of Go for API integration.
 
 12. **[mock-interview-1](./mock-interview-1/)**  

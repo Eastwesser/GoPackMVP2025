@@ -84,7 +84,7 @@ func (s *TaskService) getTask(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid task ID")
+		respondWithError(w, http.StatusBadRequest, "Invalid task-for-understanding ID")
 		return
 	}
 
@@ -104,7 +104,7 @@ func (s *TaskService) updateTask(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid task ID")
+		respondWithError(w, http.StatusBadRequest, "Invalid task-for-understanding ID")
 		return
 	}
 
@@ -132,7 +132,7 @@ func (s *TaskService) deleteTask(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid task ID")
+		respondWithError(w, http.StatusBadRequest, "Invalid task-for-understanding ID")
 		return
 	}
 

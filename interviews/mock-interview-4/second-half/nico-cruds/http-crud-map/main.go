@@ -181,7 +181,7 @@ func (h *HTTPHandler) DeleteEntityHandler(w http.ResponseWriter, r *http.Request
 
 func main() {
 
-	// Инициализация слоев (entity in the core)
+	// Инициализация слоев (entity is in the core)
 	repo := NewInMemoryRepository()    // 1. сначала идет репозиторий, самый нижний уровень (ниже только entities)
 	useCase := NewEntityUseCase(repo)  // 2. затем сервис (он же usecase)
 	handler := NewHTTPHandler(useCase) // 3. потом идут контроллеры - они преобразуют запросы и возвращают модель

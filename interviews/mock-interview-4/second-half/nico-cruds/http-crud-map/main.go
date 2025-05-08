@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// Domain layer
+// Entity - Domain layer
 type Entity struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`

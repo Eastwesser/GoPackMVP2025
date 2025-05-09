@@ -17,7 +17,7 @@ func ewok(n int) int {
 func safeEwok(n int) (result string) {
 	defer func() {
 		if r := recover(); r != nil {
-			result = "Произошла ошибка"
+			result = "Произошла какая-то ошибка"
 		}
 	}()
 

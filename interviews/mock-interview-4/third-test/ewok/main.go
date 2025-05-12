@@ -31,11 +31,13 @@ func main() {
 	// Запускаем горутины для значений от -50 до 50
 	for i := -50; i <= 50; i++ {
 		wg.Add(1)
+
 		go func(n int) {
 			defer wg.Done()
 			res := safeEwok(n)
 			fmt.Printf("Результат для %d: %s\n", n, res)
 		}(i)
+
 	}
 
 	// Ожидаем завершения всех горутин

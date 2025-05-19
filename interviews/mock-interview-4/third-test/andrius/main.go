@@ -19,7 +19,7 @@ type IUser interface {
 	ID() int
 }
 
-func NewUser(id int, name string, age int, nickname string, email string) IUser {
+func NewUser(id int, name string, age int, nickname string, email string) []User {
 
 	user := User{
 		ID:       id,
@@ -30,10 +30,10 @@ func NewUser(id int, name string, age int, nickname string, email string) IUser 
 	}
 	users = append(users, user)
 
-	return user
+	return users
 }
 
-func CreateUser(u *IUser) {
+func CreateUser() {
 	panic("implement me")
 }
 
@@ -56,5 +56,6 @@ func main() {
 	DeleteUserInfo()
 
 	r := chi.NewRouter()
-	r
+
+	r.CreateUser()
 }

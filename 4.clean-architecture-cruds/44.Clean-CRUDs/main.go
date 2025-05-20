@@ -39,6 +39,7 @@ func NewUser(id int, name string, age int, nickname string, email string) []User
 	return users
 }
 
+// this func creates a user with info
 func createUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 
@@ -58,6 +59,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// this func gets user's info
 func readUserInfo(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -82,21 +84,64 @@ func readUserInfo(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(user)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	http.Error(w, "not found", http.StatusNotFound)
 }
 
+// this func updates user's info
 func updateUserInfo(w http.ResponseWriter, r *http.Request) {
-	panic("implement me")
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	var updatedUser User
+
+	if err = json.NewDecoder(r.Body).Decode(&updatedUser); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	for i, user := range users {
+		if user.ID == id {
+			updatedUser.ID = id
+			users[i] = updatedUser
+
+			w.Header().Set("Content-Type", "application/json")
+			err = json.NewEncoder(w).Encode(updatedUser)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusBadRequest)
 }
 
+// this func kills a user with entire info
 func deleteUserInfo(w http.ResponseWriter, r *http.Request) {
-	panic("implement me")
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	for i, user := range users {
+		if user.ID == id {
+			users = append(users[:i], users[i+1:]...)
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+	}
+
+	http.Error(w, "not found", http.StatusNotFound)
 }
 
 // this func lists all users
@@ -125,13 +170,18 @@ func main() {
 	})
 	atmID++
 
+	// CRUDs
 	r.Route("/user", func(r chi.Router) {
-		// CRUDs
+		// POST /users - создать нового пользователя
 		r.Post("/", createUser)
+		// GET /users/{id} - получить пользователя по ID
 		r.Get("/{id}", readUserInfo)
+		// PUT /users/{id} - обновить пользователя
 		r.Put("/{id}", updateUserInfo)
+		// DELETE /users/{id} - удалить пользователя
 		r.Delete("/{id}", deleteUserInfo)
-		// get all users
+
+		// GET /users - список всех пользователей
 		r.Get("/", listUsers)
 	})
 

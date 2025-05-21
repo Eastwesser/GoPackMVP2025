@@ -6,6 +6,8 @@ import (
 	"sync"
 )
 
+const repository = "Infrastructure - реализация репозитория"
+
 // --- Infrastructure Layer (Реализация репозитория) ---
 // Детали работы с данными (в данном случае in-memory, но обычно это база данных Постгре
 
@@ -38,7 +40,7 @@ func (r *MemoryUserRepository) Create(user *domain.User) error {
 	return nil
 }
 
-func (r *MemoryUserRepository) GetByID(id int) (*domain.User, error) {
+func (r *MemoryUserRepository) Get(id int) (*domain.User, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -71,15 +73,4 @@ func (r *MemoryUserRepository) Delete(id int) error {
 
 	delete(r.users, id)
 	return nil
-}
-
-func (r *MemoryUserRepository) List() ([]domain.User, error) {
-	r.mu.RLock()
-	defer r.mu.RUnlock()
-
-	users := make([]domain.User, 0, len(r.users))
-	for _, user := range r.users {
-		users = append(users, *user)
-	}
-	return users, nil
 }

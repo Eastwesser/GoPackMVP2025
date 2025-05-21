@@ -9,6 +9,8 @@ import (
 	"strconv"
 )
 
+const handlers = "Delivery - HTTP handlers"
+
 type UserHandler struct {
 	uc *usecase.UserUseCase
 }
@@ -57,7 +59,7 @@ func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid ID format", http.StatusBadRequest)
+		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
 	}
 
@@ -68,8 +70,13 @@ func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Проверка что ID в URL и теле запроса совпадают
+	if user.ID != 0 && user.ID != id {
+		http.Error(w, "ID in URL and body mismatch", http.StatusBadRequest)
+		return
+	}
 	// Устанавливаем ID из URL в объект пользователя
-	user.ID = id
+	user.ID = id // На случай если ID не был передан в теле
 
 	// Вызываем usecase
 	if err := h.uc.Update(&user); err != nil {
@@ -79,7 +86,11 @@ func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Возвращаем обновленного пользователя
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	err = json.NewEncoder(w).Encode(user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 }
 
 func (h *UserHandler) Delete(w http.ResponseWriter, r *http.Request) {

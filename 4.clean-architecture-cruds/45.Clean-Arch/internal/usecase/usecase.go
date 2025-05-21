@@ -5,6 +5,8 @@ import (
 	"errors"
 )
 
+const usecase = "Usecase - бизнес-правила"
+
 type UserUseCase struct {
 	repo domain.UserRepository
 }

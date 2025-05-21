@@ -1,7 +1,9 @@
 package domain
 
 // --- Domain Layer (Сущности) ---
-// Это чистая бизнес-логика (ядро системы), не зависит ни от чего внешнего
+const entity = "Domain - ядро без зависимостей"
+
+// User это чистая бизнес-логика (ядро системы), не зависит ни от чего внешнего
 // Содержит только структуры данных и интерфейсы
 type User struct {
 	ID       int
@@ -18,8 +20,7 @@ type User struct {
 // Бизнес-правила приложения
 type UserRepository interface {
 	Create(user *User) error
-	GetByID(id int) (*User, error)
+	Get(id int) (*User, error)
 	Update(user *User) error
 	Delete(id int) error
-	List() ([]User, error)
 }

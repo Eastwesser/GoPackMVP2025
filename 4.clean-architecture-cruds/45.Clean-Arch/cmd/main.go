@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cleanuser/run"
+	"cleanuser/internal/run"
 )
 
 func main() {

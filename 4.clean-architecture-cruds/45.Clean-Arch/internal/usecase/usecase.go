@@ -25,11 +25,11 @@ func (uc *UserUseCase) Create(user *domain.User) error {
 }
 
 func (uc *UserUseCase) GetByID(id int) (*domain.User, error) {
-	return uc.repo.GetByID(id)
+	return uc.repo.Get(id)
 }
 
 func (uc *UserUseCase) Update(user *domain.User) error {
-	existing, err := uc.repo.GetByID(user.ID)
+	existing, err := uc.repo.Get(user.ID)
 	if err != nil {
 		return err
 	}

@@ -16,13 +16,14 @@ func Run() {
 	baseRepo := repository.NewEmpRepo() // инфраструктура
 
 	// 2. Оборачиваем в прокси с кэшированием (TTL = 5 минут)
+	// Прокси принимает IEmpRepo, а EmpRepo его реализует
 	cachedProxyRepo := repository.NewCacheProxyRepo(baseRepo, 5*time.Minute)
 
 	//uc := usecase.NewEmpUseCase(baseRepo) // old (without proxy)
 
 	// 3. Создаем use case, который будет работать с репозиторием
 	//    Он не знает, что это прокси - для него это просто IEmpRepo
-	uc := usecase.NewEmpUseCase(cachedProxyRepo) // бизнес-логика
+	uc := usecase.NewEmpUseCase(cachedProxyRepo) // бизнес-логика (с прокси)
 
 	// 4. Настраиваем роутер и HTTP обработчики
 	router := controller.NewEmpRouter(uc) // доставка

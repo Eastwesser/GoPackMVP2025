@@ -7,20 +7,20 @@ import (
 )
 
 // EmpRepo - in-memory реализация хранилища сотрудников
-type IEmpRepo struct {
+type EmpRepo struct {
 	mu        sync.RWMutex        // Для потокобезопасности
 	employees map[int]*entity.Emp // Хранение данных в map (ключ - ID)
 }
 
 // NewEmpRepo создает новый репозиторий
-func NewEmpRepo() *IEmpRepo {
-	return &IEmpRepo{
+func NewEmpRepo() *EmpRepo {
+	return &EmpRepo{
 		employees: make(map[int]*entity.Emp),
 	}
 }
 
-// AddEmp добавляет нового сотрудника
-func (r *IEmpRepo) AddEmp(emp *entity.Emp) error {
+// Add добавляет нового сотрудника
+func (r *EmpRepo) Add(emp *entity.Emp) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -34,8 +34,8 @@ func (r *IEmpRepo) AddEmp(emp *entity.Emp) error {
 	return nil
 }
 
-// GetAllEmp возвращает всех сотрудников
-func (r *IEmpRepo) GetAllEmp() ([]entity.Emp, error) {
+// GetAll возвращает всех сотрудников
+func (r *EmpRepo) GetAll() ([]entity.Emp, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"cleanarch/internal/entity"
+	"cleanarch/internal/usecase"
 	"sync"
 	"time"
 )
@@ -12,27 +13,23 @@ type cachedEmployee struct {
 }
 
 type CacheProxyRepo struct {
-	repo     IEmpRepo // Используем интерфейс вместо конкретной реализации
+	repo     usecase.IEmpRepo // Используем интерфейс вместо конкретной реализации
 	cache    *cachedEmployee
 	mu       sync.RWMutex
 	cacheTTL time.Duration
 }
 
 // NewCacheProxyRepo создает прокси с кэшированием
-func NewCacheProxyRepo(repo *IEmpRepo, cacheTTL time.Duration) *CacheProxyRepo {
+func NewCacheProxyRepo(repo usecase.IEmpRepo, cacheTTL time.Duration) *CacheProxyRepo {
 	return &CacheProxyRepo{
-		repo: *repo,
-		cache: &cachedEmployee{
-			data:   make([]entity.Emp, 0),
-			expiry: time.Now().Add(cacheTTL),
-		},
+		repo:     repo,
 		cacheTTL: cacheTTL,
 	}
 }
 
 func (r *CacheProxyRepo) Add(emp *entity.Emp) error {
 	// Добавляем через реальный репозиторий
-	if err := r.repo.AddEmp(emp); err != nil {
+	if err := r.repo.Add(emp); err != nil {
 		return err
 	}
 
@@ -55,7 +52,7 @@ func (r *CacheProxyRepo) GetAll() ([]entity.Emp, error) {
 	}
 
 	// Получаем данные из основного репозитория
-	employees, err := r.repo.GetAllEmp()
+	employees, err := r.repo.GetAll()
 	if err != nil {
 		return nil, err
 	}

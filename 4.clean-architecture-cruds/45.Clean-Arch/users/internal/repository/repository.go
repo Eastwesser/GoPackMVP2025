@@ -1,8 +1,7 @@
 package repository
 
 import (
-	"cleanuser/internal/domain"
-	"errors"
+	"cleanuser/internal/entity"
 	"sync"
 )
 
@@ -12,25 +11,25 @@ const repository = "Infrastructure - реализация репозитория
 // Детали работы с данными (в данном случае in-memory, но обычно это база данных Постгре
 
 //Пояснение:
-//Реализует интерфейсы из domain слоя
+//Реализует интерфейсы из entity слоя
 //Содержит детали работы с данными (в данном случае in-memory хранилище)
 //В реальном проекте здесь будет работа с БД, внешними API и т.д.
 //Может быть легко заменен на другую реализацию (Postgres, MongoDB и т.д.)
 
 type MemoryUserRepository struct {
 	mu     sync.RWMutex
-	users  map[int]*domain.User
+	users  map[int]*entity.User
 	nextID int
 }
 
 func NewMemoryUserRepository() *MemoryUserRepository {
 	return &MemoryUserRepository{
-		users:  make(map[int]*domain.User),
+		users:  make(map[int]*entity.User),
 		nextID: 1,
 	}
 }
 
-func (r *MemoryUserRepository) Create(user *domain.User) error {
+func (r *MemoryUserRepository) CreateUser(user *entity.User) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -40,37 +39,15 @@ func (r *MemoryUserRepository) Create(user *domain.User) error {
 	return nil
 }
 
-func (r *MemoryUserRepository) Get(id int) (*domain.User, error) {
+func (r *MemoryUserRepository) ReadUser() ([]entity.User, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
-	user, exists := r.users[id]
-	if !exists {
-		return nil, errors.New("user not found")
-	}
-	return user, nil
-}
+	var users []entity.User
+	for _, user := range r.users {
+		users = append(users, *user)
 
-func (r *MemoryUserRepository) Update(user *domain.User) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
-	if _, exists := r.users[user.ID]; !exists {
-		return errors.New("user not found")
 	}
 
-	r.users[user.ID] = user
-	return nil
-}
-
-func (r *MemoryUserRepository) Delete(id int) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
-	if _, exists := r.users[id]; !exists {
-		return errors.New("user not found")
-	}
-
-	delete(r.users, id)
-	return nil
+	return users, nil
 }

@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// Example: Check if a string matches an email pattern
-	email := "example@domain.com"
+	email := "example@entity.com"
 	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
 
 	matched, _ := regexp.MatchString(emailRegex, email)

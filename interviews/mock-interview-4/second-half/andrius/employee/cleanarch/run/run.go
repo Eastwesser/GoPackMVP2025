@@ -15,9 +15,9 @@ func Run() {
 	// 1. Создаем базовый репозиторий (in-memory реализация)
 	baseRepo := repository.NewEmpRepo() // инфраструктура
 
-	// 2. Оборачиваем в прокси с кэшированием (TTL = 5 минут)
+	// 2. Оборачиваем в прокси с кэшированием (TTL = 10 минут)
 	// Прокси принимает IEmpRepo, а EmpRepo его реализует
-	cachedProxyRepo := repository.NewCacheProxyRepo(baseRepo, 5*time.Minute)
+	cachedProxyRepo := repository.NewCacheProxyRepo(baseRepo, 10*time.Minute)
 
 	//uc := usecase.NewEmpUseCase(baseRepo) // old (without proxy)
 

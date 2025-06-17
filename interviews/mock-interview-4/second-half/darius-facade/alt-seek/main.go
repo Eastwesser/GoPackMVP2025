@@ -58,7 +58,7 @@ func (s *SmartHomeFacade) TurnOnEverything() {
 }
 
 func (s *SmartHomeFacade) TurnOffEverything() {
-	fmt.Println("\nI'm leaving! Turning everything OFF...")
+	fmt.Println("\nI'm leaving! Bye! Turning everything OFF...")
 	s.light.Off()
 	s.ac.Off()
 	s.music.Stop()

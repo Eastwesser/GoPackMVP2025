@@ -19,7 +19,7 @@ func Run() {
 	// Прокси принимает IEmpRepo, а EmpRepo его реализует
 	cachedProxyRepo := repository.NewCacheProxyRepo(baseRepo, 10*time.Minute)
 
-	//uc := usecase.NewEmpUseCase(baseRepo) // old (without proxy)
+	// uc := usecase.NewEmpUseCase(baseRepo) // old (without proxy)
 
 	// 3. Создаем use case, который будет работать с репозиторием
 	//    Он не знает, что это прокси - для него это просто IEmpRepo

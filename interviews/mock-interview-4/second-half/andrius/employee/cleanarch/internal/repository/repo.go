@@ -34,7 +34,7 @@ func (r *EmpRepo) Add(emp *entity.Emp) error {
 	return nil
 }
 
-// GetAll возвращает всех сотрудников
+// GetAll возвращает slice всех сотрудников
 func (r *EmpRepo) GetAll() ([]entity.Emp, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()

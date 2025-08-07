@@ -34,6 +34,11 @@ func isPalindrome(s string) bool {
 
 func main() {
 	var theWord string
-	fmt.Scan(&theWord)
-	fmt.Println(isPalindrome(theWord))
+
+	scan, err := fmt.Scan(&theWord)
+	if err != nil {
+		return
+	}
+
+	fmt.Println(isPalindrome(string(rune(scan))))
 }

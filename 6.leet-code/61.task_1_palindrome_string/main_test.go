@@ -2,10 +2,17 @@ package main
 
 import "testing"
 
-// BENCHMARK
-
 func BenchmarkIsPalindrome(b *testing.B) {
+	testCases := []string{
+		"racecar",
+		"A man, a plan, a canal: Panama",
+		"not a palindrome",
+		"",
+	}
+
 	for i := 0; i < b.N; i++ {
-		isPalindrome("racecar")
+		for _, tc := range testCases {
+			isPalindrome(tc)
+		}
 	}
 }

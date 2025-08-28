@@ -27,8 +27,8 @@ Input: [1 1], Output: 0.9942 (expected: 1, accuracy: 99.4%)
 
 ✅ Model loaded successfully!
 
-🎬 Loaded Kurosawa is testing..
-.
+🎬 Loaded Kurosawa is testing...
+
 Input: [0 0], Output: 0.0439 (expected: 0, accuracy: 95.6%)
 Input: [0 1], Output: 0.9675 (expected: 1, accuracy: 96.8%)
 Input: [1 0], Output: 0.9673 (expected: 1, accuracy: 96.7%)

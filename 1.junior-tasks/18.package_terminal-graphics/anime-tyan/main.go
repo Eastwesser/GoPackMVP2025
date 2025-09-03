@@ -2,48 +2,38 @@ package main
 
 import (
 	"fmt"
-	"github.com/qeesung/image2ascii/ascii"
+	"github.com/qeesung/image2ascii/convert"
 	"image"
-	_ "image/png" // Для поддержки PNG
+	_ "image/png"
 	"os"
 )
 
 func main() {
-	// Указываем путь к изображению
-	imagePath := "GoPackMVP2025/18.package_terminal-graphics/anime-tyan/anime.png"
+	imagePath := "anime.png"
 
-	// Открываем изображение
 	file, err := os.Open(imagePath)
 	if err != nil {
-		fmt.Println("Ошибка при открытии файла:", err)
+		fmt.Println("Ошибка:", err)
 		return
 	}
 	defer file.Close()
 
-	// Декодируем изображение
 	img, _, err := image.Decode(file)
 	if err != nil {
-		fmt.Println("Ошибка при декодировании изображения:", err)
+		fmt.Println("Ошибка:", err)
 		return
 	}
 
-	// Создаем конвертер
-	converter := ascii.NewPixelConverter()
+	// Используем готовый конвертер с настройками
+	converter := convert.NewImageConverter()
 
-	// Настройки для конвертации
-	options := ascii.NewOptions()
-	options.Pixels = []byte(" .,:;i1tfLCG08@")
-	options.Reversed = false
+	options := convert.DefaultOptions
+	options.FixedWidth = 60
+	options.FixedHeight = 30
 	options.Colored = true
+	options.Reversed = false
 
-	// Проходим по каждому пикселю изображения
-	bounds := img.Bounds()
-	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-			pixel := img.At(x, y)
-			asciiChar := converter.ConvertPixelToASCII(pixel, &options)
-			fmt.Print(asciiChar)
-		}
-		fmt.Println()
-	}
+	// Конвертируем и выводим
+	asciiArt := converter.Image2ASCIIString(img, &options)
+	fmt.Print(asciiArt)
 }

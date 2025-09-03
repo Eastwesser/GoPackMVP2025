@@ -28,8 +28,8 @@ func main() {
 	converter := convert.NewImageConverter()
 
 	options := convert.DefaultOptions
-	options.FixedWidth = 60
-	options.FixedHeight = 30
+	options.FixedWidth = 70
+	options.FixedHeight = 35
 	options.Colored = true
 	options.Reversed = false
 

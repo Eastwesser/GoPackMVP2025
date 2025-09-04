@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"net"
 	"os"
 	"strings"
@@ -26,6 +27,14 @@ func main() {
 		for {
 			message, err := reader.ReadString('\n')
 			if err != nil {
+				// Если ошибка, пробуем прочитать без \n
+				if err.Error() == "EOF" {
+					// Читаем оставшиеся данные
+					data, _ := io.ReadAll(reader)
+					if len(data) > 0 {
+						fmt.Print("Server: " + string(data))
+					}
+				}
 				fmt.Println("Disconnected from server")
 				os.Exit(0)
 			}

@@ -16,7 +16,7 @@ func TCPServer(conn net.Conn) {
 	fmt.Printf("Client connected to %s\n", conn.RemoteAddr().String())
 
 	message := fmt.Sprintf(
-		"Hello, %s!",
+		"Hello, %s!\n",
 		conn.RemoteAddr().String(),
 	)
 	_, err := conn.Write([]byte(message))
@@ -29,7 +29,7 @@ func TCPServer(conn net.Conn) {
 		cliMessage := scanner.Text()
 		fmt.Printf("%s: %s\n", conn.RemoteAddr().String(), cliMessage)
 
-		response := fmt.Sprintf("%s\n", cliMessage)
+		response := fmt.Sprintf("Echo: %s\n", cliMessage)
 		_, err := conn.Write([]byte(response))
 		if err != nil {
 			return

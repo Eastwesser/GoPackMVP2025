@@ -64,7 +64,7 @@ func main() {
 	verdictChan := make(chan bool)
 	stopChan := make(chan struct{}) // Используем пустую структуру для сигнальных каналов
 
-	// Запускаем Короля-судью
+	// Запускаем Короля-судью (читатель выносит вердикт)
 	go func() {
 		defer close(verdictChan) // Закрываем verdictChan при завершении
 
